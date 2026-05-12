@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, mkdirSync, cpSync, existsSync } from "fs";
 import { resolve, dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -21,6 +21,10 @@ let dataStr = match[1];
 dataStr = dataStr.replace(/\s+as\s+const\b/g, "");  // remove "as const"
 dataStr = dataStr.replace(/:\s*\w+\[\]/g, "");       // remove type annotations like ": string[]"
 
+// Transform imageSrc paths: strip directory prefix so images are relative to composition root
+// Images will be copied to hyperframes/reading-history/images/ via copy-images step
+dataStr = dataStr.replace(/imageSrc:\s*"reading-history\//g, 'imageSrc: "images/');
+
 // Extract totalDurationFrames
 const durMatch = ts.match(/export const totalDurationFrames\s*=\s*(\d+)/);
 const totalDuration = durMatch ? durMatch[1] : "23247";
@@ -33,3 +37,12 @@ window.__readingHistoryTotalFrames = ${totalDuration};
 
 writeFileSync(outPath, output, "utf-8");
 console.log(`Written: ${outPath}`);
+
+// Copy images from public/reading-history/ to hyperframes/reading-history/images/
+const imgSrc = resolve(__dirname, "../../public/reading-history");
+const imgDst = resolve(__dirname, "../reading-history/images");
+if (existsSync(imgSrc)) {
+  mkdirSync(imgDst, { recursive: true });
+  cpSync(imgSrc, imgDst, { recursive: true, filter: (src) => !src.endsWith(".txt") });
+  console.log(`Copied images: ${imgSrc} -> ${imgDst}`);
+}

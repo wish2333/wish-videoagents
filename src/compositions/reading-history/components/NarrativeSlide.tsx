@@ -5,6 +5,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
   spring,
+  staticFile,
 } from "remotion";
 import type { ReferencedWork } from "../types";
 import { DISPLAY_FONT, BODY_FONT } from "../fonts";
@@ -15,6 +16,7 @@ interface NarrativeSlideProps {
   year?: string;
   works?: ReferencedWork[];
   variant?: "default" | "closing";
+  cardSize?: [number, number];
 }
 
 const SINGLE_W = 400;
@@ -67,7 +69,7 @@ function WorkCard({
       {work.imageSrc ? (
         <>
           <img
-            src={work.imageSrc}
+            src={staticFile(work.imageSrc)}
             alt={work.title}
             style={{ width, height, objectFit: "cover" }}
           />
@@ -142,6 +144,7 @@ export const NarrativeSlide: React.FC<NarrativeSlideProps> = ({
   year,
   works,
   variant = "default",
+  cardSize,
 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -180,7 +183,7 @@ export const NarrativeSlide: React.FC<NarrativeSlideProps> = ({
 
   const cards = (w: number, h: number, max: number, baseDelay: number, gap: number) =>
     works!.slice(0, max).map((work, i) => (
-      <WorkCard key={i} work={work} width={w} height={h} delay={baseDelay + i * gap} />
+      <WorkCard key={i} work={work} width={cardSize ? cardSize[0] : w} height={cardSize ? cardSize[1] : h} delay={baseDelay + i * gap} />
     ));
 
   return (
@@ -241,7 +244,7 @@ export const NarrativeSlide: React.FC<NarrativeSlideProps> = ({
                 ? cards(DUAL_W_P, DUAL_H_P, 2, 20, 8)
                 : works!.slice(0, 6).map((work, i) => (
                     <div key={i} style={i === works!.slice(0, 6).length - 1 && works!.slice(0, 6).length % 2 === 1 ? { gridColumn: "1 / -1", justifySelf: "center" } : undefined}>
-                      <WorkCard work={work} width={MANY_W_P} height={MANY_H_P} delay={20 + i * 6} />
+                      <WorkCard work={work} width={cardSize ? cardSize[0] : MANY_W_P} height={cardSize ? cardSize[1] : MANY_H_P} delay={20 + i * 6} />
                     </div>
                   ))}
           </div>
@@ -285,7 +288,7 @@ export const NarrativeSlide: React.FC<NarrativeSlideProps> = ({
             gap: 20,
           }}>
             {works!.slice(0, 6).map((work, i) => (
-              <WorkCard key={i} work={work} width={MANY_W} height={MANY_H} delay={20 + i * 6} />
+              <WorkCard key={i} work={work} width={cardSize ? cardSize[0] : MANY_W} height={cardSize ? cardSize[1] : MANY_H} delay={20 + i * 6} />
             ))}
           </div>
         </div>

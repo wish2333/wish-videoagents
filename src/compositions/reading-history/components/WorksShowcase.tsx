@@ -4,6 +4,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
   spring,
+  staticFile,
 } from "remotion";
 import type { ReferencedWork } from "../types";
 import { BODY_FONT } from "../fonts";
@@ -94,7 +95,7 @@ export const WorksShowcase: React.FC<WorksShowcaseProps> = ({
               {work.imageSrc ? (
                 <>
                   <img
-                    src={work.imageSrc}
+                    src={staticFile(work.imageSrc)}
                     alt={work.title}
                     style={{ width: cw, height: ch, objectFit: "cover" }}
                   />

@@ -4,6 +4,8 @@
 node_modules/
 out/
 assets/
+images/
+renders/
 
 .DS_Store
 *.log

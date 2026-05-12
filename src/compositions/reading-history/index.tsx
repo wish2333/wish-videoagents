@@ -158,6 +158,7 @@ const SLIDE_RENDERER: Record<
         text={s.text}
         year={s.year}
         works={s.works}
+        cardSize={s.cardSize}
         variant="default"
       />
     );
@@ -170,6 +171,7 @@ const SLIDE_RENDERER: Record<
         text={s.text}
         year={s.year}
         works={s.works}
+        cardSize={s.cardSize}
         variant="closing"
       />
     );

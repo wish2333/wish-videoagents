@@ -4,11 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A quadruple-engine programmatic video production system. The project runs four rendering pipelines in parallel:
+A triple-engine programmatic video production system. The project runs three rendering pipelines in parallel:
 
 - **Remotion** (React/TypeScript) — Frame-by-frame rendering via React components. Used for MangaRecommend, ReadingHistory, and PlayerStyle compositions.
 - **Hyperframes** (HTML/GSAP) — HTML-native video framework by HeyGen. Used for ReadingHistory and WhiteVoice (PlayerStyle) compositions with simpler HTML+GSAP timelines.
-- **Revideo** (TypeScript/Canvas) — Generator-based canvas rendering framework. Used for ReadingHistory (landscape) composition. Produces MP4 via headless Puppeteer + FFmpeg.
 - **Motion Canvas** (TypeScript/Canvas) — Generator-based canvas rendering framework with built-in FFmpeg export and browser-based editor. Used for ReadingHistory (landscape) composition.
 
 All engines share the same data sources but have independent rendering pipelines with full file isolation.
@@ -25,29 +24,6 @@ bun run render:manga              # Render manga landscape to out/manga.mp4
 bun run render:manga-vertical     # Render manga portrait to out/manga-vertical.mp4
 bun remotionb render ReadingHistory out/reading-history.mp4
 bun remotionb render PlayerStyle out/player-style.mp4
-```
-
-### Revideo Pipeline (revideo/ directory)
-
-```bash
-cd revideo
-
-# Visual editor (opens browser)
-bun run dev
-
-# Render to MP4
-bun run render:reading-history
-
-# Data conversion (regenerate from TypeScript sources)
-bun run convert:data
-```
-
-Root-level proxy commands:
-
-```bash
-bun run revideo:dev
-bun run revideo:render:reading-history
-bun run revideo:convert:data
 ```
 
 ### Hyperframes Pipeline (hyperframes/ directory)
@@ -100,22 +76,20 @@ bun run motion-canvas:convert:data # Regenerate data
 
 ## Architecture
 
-### Quadruple-Engine Layout
+### Triple-Engine Layout
 
 ```
 videoagent/
   src/                  # Remotion pipeline (React/TypeScript)
   hyperframes/          # Hyperframes pipeline (HTML/GSAP) — fully isolated
-  revideo/              # Revideo pipeline (TypeScript/Canvas) — fully isolated
   motion-canvas/        # Motion Canvas pipeline (TypeScript/Canvas) — fully isolated
   public/               # Shared static assets (audio, images)
   out/                  # Remotion output
   hyperframes/out/      # Hyperframes output
-  revideo/out/          # Revideo output
   motion-canvas/output/ # Motion Canvas output
 ```
 
-The four pipelines are completely independent: separate `package.json`, separate `node_modules`, separate build toolchains. They share only the data sources (`slides-data.ts`, `sample-data.ts`) via conversion scripts.
+The three pipelines are completely independent: separate `package.json`, separate `node_modules`, separate build toolchains. They share only the data sources (`slides-data.ts`, `sample-data.ts`) via conversion scripts.
 
 ### Remotion Compositions
 
@@ -138,19 +112,6 @@ The four pipelines are completely independent: separate `package.json`, separate
 **ReadingHistory** (`hyperframes/reading-history/`) — Reading timeline with 6 slide types (title, timeline-marker, narrative, quote, works-grid, closing, outro). Landscape 1920x1080. Data generated from `reading-history/slides-data.ts` via `scripts/convert-slides-data.mjs`.
 
 **ReadingHistory Vertical** (`hyperframes/reading-history-vertical/`) — Portrait variant (1080x1920) with adjusted layout parameters. Shares data.js with the landscape version.
-
-### Revideo Compositions
-
-**ReadingHistory** (`revideo/src/scenes/reading-history.tsx`) — Reading timeline with generator-based scene rendering. Uses `makeScene2D` to iterate through 44 slides, rendering each type (title, timeline-marker, narrative, closing, outro) with Canvas 2D nodes and `yield*` animations. Data from `revideo/src/data/reading-history.ts` (converted from `reading-history/slides-data.ts`). Layout utilities in `revideo/src/lib/`.
-
-### Revideo Pipeline Conventions
-
-- **Animation** uses generator coroutines (`yield*`) with `@revideo/2d` node tweens. `chain()` for sequential, `all()` for simultaneous animations.
-- **Timing** is in seconds. Data conversion divides frame durations by FPS (30).
-- **Rendering target** is HTML Canvas 2D (not DOM). No CSS layout — use absolute positioning with x/y coordinates.
-- **JSX** is handled by `@revideo/vite-plugin` at Vite build time. Do not run `tsc` directly on Revideo files.
-- **Data pipeline**: TypeScript data files are converted via `revideo/scripts/`. Run `bun run convert:data` after source data changes.
-- **Dev server**: `vite` launches a browser-based visual editor with timeline scrubbing.
 
 ### Motion Canvas Compositions
 
@@ -194,6 +155,7 @@ TitleCard, Subtitle, Outro, FadeTransition, ImageMontage — used by MangaRecomm
 - **Tailwind** is enabled via `@remotion/tailwind-v4` in `remotion.config.ts`.
 - **Frame timing**: All durations are in frames. Default FPS is 30 (1 second = 30 frames). ReadingHistory slide durations in `slides-data.ts` are aligned to SRT subtitle timestamps.
 - **Static assets** (audio, images) placed in `public/` are accessed via Remotion's `staticFile()` function.
+- **Card sizing**: NarrativeSlide auto-sizes work cards by count (1 work: 400x530, 2: 360x470, 3+: 260x347). Set `cardSize?: [w, h]` on a slide to override. Used for: audio drama covers (s2-n5 to s4) at `[320,320]`, CV photos at `[200,200]`, Given at `[600,450]`.
 
 ### Hyperframes Pipeline
 
@@ -249,24 +211,6 @@ hyperframes/                      # Hyperframes pipeline (HTML/GSAP) — isolate
     convert-slides-data.mjs       # slides-data.ts -> reading-history/data.js
     screenshot-compare.mjs        # Visual regression: frame extraction + comparison
   out/                            # Hyperframes rendered output
-revideo/                          # Revideo pipeline (TypeScript/Canvas) — isolated
-  package.json                    # Standalone dependencies (@revideo/2d, @revideo/core, etc.)
-  vite.config.ts                  # Vite config with @revideo/vite-plugin
-  src/
-    project.ts                    # makeProject with scene list
-    render.ts                     # Headless renderVideo() entry point
-    scenes/
-      reading-history.tsx         # ReadingHistory scene (generator-based)
-    lib/
-      fonts.ts                    # Font stacks (shared with Remotion)
-      layout.ts                   # Canvas dimensions, colors, spacing
-      animation.ts                # Animation helpers (fadeIn, fadeOut, slideIn)
-      slide-renderers.ts          # Per-slide-type rendering functions
-    data/
-      reading-history.ts          # Converted slide data (auto-generated)
-  scripts/
-    convert-slides-data.mjs       # slides-data.ts -> reading-history.ts
-  out/                            # Revideo rendered output
 motion-canvas/                    # Motion Canvas pipeline (TypeScript/Canvas) — isolated
   package.json                    # Standalone dependencies (@motion-canvas/2d, @motion-canvas/core, etc.)
   vite.config.ts                  # Vite config with @motion-canvas/vite-plugin and @motion-canvas/ffmpeg
@@ -298,6 +242,5 @@ out/                              # Remotion rendered output
 - **Package Manager (backend)**: uv
 - **Build Check (Remotion)**: `bun run build`
 - **Lint Check (Hyperframes)**: `cd hyperframes && bun run lint`
-- **Dev Check (Revideo)**: `cd revideo && bun run dev`
 # currentDate
 Today's date is 2026/05/12.

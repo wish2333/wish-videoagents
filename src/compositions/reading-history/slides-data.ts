@@ -17,8 +17,9 @@ export const readingHistorySlides = [
     durationInFrames: 449,
     text: "最近Given在香港办展，我约了二十六号去看。其实Given在二零一九年动漫刚出的时候我就看了，首先我就有点没看懂，而且不太喜欢\"有个死去的白月光\"这类青春伤痛文学。",
     works: [
-      { title: "Given", mediaType: "anime" as const, imageSrc: "" },
+      { title: "Given", mediaType: "anime" as const, imageSrc: "reading-history/given.jpg" },
     ],
+    cardSize: [600, 450] as const,
   },
   {
     id: "s0-n2",
@@ -28,7 +29,7 @@ export const readingHistorySlides = [
     durationInFrames: 452,
     text: "当时甚至觉得要看乐队和三角恋，还不如二零一七年的《覆面系 Noise》。不过最近终于补完了Given的完整故事，虽然说没到爱上的程度，但柊这对纯爱CP是真戳我。",
     works: [
-      { title: "覆面系Noise", mediaType: "anime" as const, year: "2017", imageSrc: "" },
+      { title: "覆面系Noise", mediaType: "anime" as const, year: "2017", imageSrc: "reading-history/fukumenki-noise.jpg" },
     ],
   },
   {
@@ -82,7 +83,7 @@ export const readingHistorySlides = [
     durationInFrames: 447,
     text: "一本是大名鼎鼎的斗罗大陆，另一本是本言情小说，名字早忘了但现在倒还收着。这本言情小说是一个狗血的三角恋，故事不怎么样，但当时莫名被对男主的描写吸引。",
     works: [
-      { title: "斗罗大陆", mediaType: "novel" as const, imageSrc: "" },
+      { title: "斗罗大陆", mediaType: "novel" as const, imageSrc: "reading-history/douluo-dalu.jpg" },
     ],
   },
   {
@@ -112,7 +113,7 @@ export const readingHistorySlides = [
     durationInFrames: 415,
     text: "初中的时候好几部作品我突然开了窍。一部是魔道祖师的某部番外漫画，被几个腐女朋友按头看的，说实话挺辣眼睛，把受的身体画得像个女生，特别的怪异。",
     works: [
-      { title: "魔道祖师", mediaType: "manga" as const, imageSrc: "" },
+      { title: "魔道祖师", mediaType: "manga" as const, imageSrc: "reading-history/modao-zushi.jpg" },
     ],
   },
   {
@@ -123,7 +124,7 @@ export const readingHistorySlides = [
     durationInFrames: 632,
     text: "另一本是漫画《天行轶事》，当年在班上传着看，我就看了前两章就被两个男主的羁绊深深吸引。结果最后他俩居然真戴上红盖头结婚了。中间看游浩贤擅自离开了那段，真的很揪心，要不是故事的话，这一分开说不定就是永别了。",
     works: [
-      { title: "天行轶事", mediaType: "manga" as const, imageSrc: "" },
+      { title: "天行轶事", mediaType: "manga" as const, imageSrc: "reading-history/tianxing-yishi.jpg" },
     ],
   },
   {
@@ -134,8 +135,8 @@ export const readingHistorySlides = [
     durationInFrames: 576,
     text: "然后是BL动漫《世界第一初恋》和科幻动漫《来自新世界》。那个时候B站还顶着全世界最大的同性交友的戏称，正处在鼎盛期，资源特别多，看番的弹幕体验也很绝，又刚好赶上扩圈的初期，纯爱在当时风头正盛。",
     works: [
-      { title: "世界第一初恋", mediaType: "anime" as const, imageSrc: "" },
-      { title: "来自新世界", mediaType: "anime" as const, imageSrc: "" },
+      { title: "世界第一初恋", mediaType: "anime" as const, imageSrc: "reading-history/sekai-ichi-hatsukoi.jpg" },
+      { title: "来自新世界", mediaType: "anime" as const, imageSrc: "reading-history/shinsekai-yori.jpg" },
     ],
   },
   {
@@ -154,8 +155,9 @@ export const readingHistorySlides = [
     durationInFrames: 585,
     text: "最后是一部广播剧：如果说《来自新世界》用一段激情舌吻刺激了我的视觉，那《我们假戏真做吧》就是用声音带我走进了新世界。我发现好听的声音能给人充能，优质的剪辑能让人沉浸故事，更重要的是，我好像真的喜欢上了两个男孩子恋爱故事。",
     works: [
-      { title: "我们假戏真做吧", mediaType: "audio-drama" as const, imageSrc: "" },
+      { title: "我们假戏真做吧", mediaType: "audio-drama" as const, imageSrc: "reading-history/women-jiaxi-zhenzuo.jpg" },
     ],
+    cardSize: [320, 320] as const,
   },
   {
     id: "s2-n6",
@@ -184,11 +186,13 @@ export const readingHistorySlides = [
     durationInFrames: 672,
     text: "娇羞胡萝卜大大连续更新的几篇同系列的网配文，确实给我了解网配提供了一个很好的平台。与此同时，那个时候产量爆炸的网配圈，也把这些作品做得很高质量，让我真的是吃饱了。之后一段时间里，我把能找到的网配相关的广播剧都听了一遍，然后就开始在排行榜里找剧听。",
     works: [
-      { title: "网配文1", mediaType: "audio-drama" as const, imageSrc: "" },
-      { title: "网配文2", mediaType: "audio-drama" as const, imageSrc: "" },
-      { title: "网配文3", mediaType: "audio-drama" as const, imageSrc: "" },
-      { title: "网配文4", mediaType: "audio-drama" as const, imageSrc: "" },
+      { title: "网配文1", mediaType: "audio-drama" as const, imageSrc: "reading-history/wangpei-01.jpg" },
+      { title: "网配文2", mediaType: "audio-drama" as const, imageSrc: "reading-history/wangpei-02.jpg" },
+      { title: "网配文3", mediaType: "audio-drama" as const, imageSrc: "reading-history/wangpei-03.jpg" },
+      { title: "网配文4", mediaType: "audio-drama" as const, imageSrc: "reading-history/wangpei-04.jpg" },
+      { title: "网配文5", mediaType: "audio-drama" as const, imageSrc: "reading-history/wangpei-05.jpg" },
     ],
+    cardSize: [320, 320] as const,
   },
   {
     id: "s3-n2",
@@ -198,9 +202,10 @@ export const readingHistorySlides = [
     durationInFrames: 504,
     text: "你猜怎么着，我居然看到《假戏真做》里面声音好听的受役在另一个剧里配攻，搭戏的正好是《假戏真做》姊妹篇的另一个受役，真是梦幻联动啊，所以我就赶紧去听了，确实是一个精彩的故事。而这个故事的原作叫巫哲。",
     works: [
-      { title: "CV-受役", mediaType: "audio-drama" as const, imageSrc: "" },
-      { title: "CV-攻役", mediaType: "audio-drama" as const, imageSrc: "" },
+      { title: "CV-受役", mediaType: "audio-drama" as const, imageSrc: "reading-history/cv-gong.jpg" },
+      { title: "CV-攻役", mediaType: "audio-drama" as const, imageSrc: "reading-history/cv-shou.jpg" },
     ],
+    cardSize: [200, 200] as const,
   },
   {
     id: "s3-n3",
@@ -210,8 +215,9 @@ export const readingHistorySlides = [
     durationInFrames: 521,
     text: "不知道有多少人看过这部巫哲第三部完结作《非爱不可》，当时不懂别的，就觉得两个主役的声音好听，故事写得也好，节奏舒服，还特别的现实。那年是二零一六年，我十四岁，把很多网配广播剧都浅浅刷了一轮。",
     works: [
-      { title: "非爱不可", author: "巫哲", mediaType: "audio-drama" as const, imageSrc: "" },
+      { title: "非爱不可", author: "巫哲", mediaType: "audio-drama" as const, imageSrc: "reading-history/feiai-buke.jpg" },
     ],
+    cardSize: [320, 320] as const,
   },
   {
     id: "s3-n4",
@@ -221,9 +227,10 @@ export const readingHistorySlides = [
     durationInFrames: 605,
     text: "《网游之我不配》给我的印象挺深：一是声音好听，二是故事勾人，三是主角的特殊癖好，对我当时幼小的心灵还挺有冲击，也算是性癖启蒙作了。另一部印象深刻的广播剧就不太一样了，那是想要一辈子都别再接触的《一醉经年》。",
     works: [
-      { title: "网游之我不配", mediaType: "audio-drama" as const, imageSrc: "" },
-      { title: "一醉经年", mediaType: "audio-drama" as const, imageSrc: "" },
+      { title: "网游之我不配", mediaType: "audio-drama" as const, imageSrc: "reading-history/wangyou-zhi-wobupei.jpg" },
+      { title: "一醉经年", mediaType: "audio-drama" as const, imageSrc: "reading-history/yizui-jingnian.jpg" },
     ],
+    cardSize: [320, 320] as const,
   },
   {
     id: "s3-n5",
@@ -252,8 +259,9 @@ export const readingHistorySlides = [
     durationInFrames: 456,
     text: "到了二零一七年，第一批的商配广播剧上线，我首先听的那必然是《撒野》，巫哲这部老熟人嘛。往后一部又一部的商配广播剧开始掏我裤兜，最早的这批商配也算是陪我走完了整个高中。",
     works: [
-      { title: "撒野", author: "巫哲", mediaType: "audio-drama" as const, imageSrc: "" },
+      { title: "撒野", author: "巫哲", mediaType: "audio-drama" as const, imageSrc: "reading-history/saye.jpg" },
     ],
+    cardSize: [320, 320] as const,
   },
   {
     id: "s4-n2",
@@ -263,10 +271,11 @@ export const readingHistorySlides = [
     durationInFrames: 492,
     text: "其中对我影响最大，甚至可以说是陪我扛过最后冲刺阶段的，是《一个钢镚儿》。比起《撒野》《某某》《伪装学渣》这类的故事，《钢镚》跳脱出了高考体系，而这刚好是我高中最后阶段压力来源。",
     works: [
-      { title: "一个钢镚儿", mediaType: "audio-drama" as const, imageSrc: "" },
-      { title: "某某", mediaType: "audio-drama" as const, imageSrc: "" },
-      { title: "伪装学渣", mediaType: "audio-drama" as const, imageSrc: "" },
+      { title: "一个钢镚儿", mediaType: "audio-drama" as const, imageSrc: "reading-history/yige-gangbeng.jpg" },
+      { title: "某某", mediaType: "audio-drama" as const, imageSrc: "reading-history/momo.jpg" },
+      { title: "伪装学渣", mediaType: "audio-drama" as const, imageSrc: "reading-history/weizhuang-xuezha.jpg" },
     ],
+    cardSize: [320, 320] as const,
   },
   {
     id: "s4-n3",
@@ -284,8 +293,9 @@ export const readingHistorySlides = [
     durationInFrames: 265,
     text: "另外还有《嚣张》，他倒是没给我带来太多的压力，也成为了我播放列表里面不断循环的一部剧，可能还是人物太可爱，太有意思了。",
     works: [
-      { title: "嚣张", author: "巫哲", mediaType: "audio-drama" as const, imageSrc: "" },
+      { title: "嚣张", author: "巫哲", mediaType: "audio-drama" as const, imageSrc: "reading-history/xiaozhang.jpg" },
     ],
+    cardSize: [320, 320] as const,
   },
 
   // Section 5: 大学与回归 (06:11 - 07:22)
@@ -357,12 +367,12 @@ export const readingHistorySlides = [
     durationInFrames: 747,
     text: "其实在开始认识广播剧之前，我早已沉沦在动漫的世界里。还记得二零一六年的夏天，我一口气看了四十部动漫，暑假的时候回想起来，自己都吓了一跳。其中除了《世界第一初恋》《纯情罗曼史》，我还看了《同级生》《今天开始做魔王》《终结的炽天使》《K》《黑执事》《Free》，还有《龙与虎》《赤发白雪姬》之类的番剧。",
     works: [
-      { title: "世界第一初恋", mediaType: "anime" as const, imageSrc: "" },
-      { title: "纯情罗曼史", mediaType: "anime" as const, imageSrc: "" },
-      { title: "同级生", mediaType: "anime" as const, imageSrc: "" },
-      { title: "今天开始做魔王", mediaType: "anime" as const, imageSrc: "" },
-      { title: "终结的炽天使", mediaType: "anime" as const, imageSrc: "" },
-      { title: "黑执事", mediaType: "anime" as const, imageSrc: "" },
+      { title: "世界第一初恋", mediaType: "anime" as const, imageSrc: "reading-history/sekai-ichi-hatsukoi-02.jpg" },
+      { title: "纯情罗曼史", mediaType: "anime" as const, imageSrc: "reading-history/junjou-romantica.jpg" },
+      { title: "同级生", mediaType: "anime" as const, imageSrc: "reading-history/doukyuusei.jpg" },
+      { title: "今天开始做魔王", mediaType: "anime" as const, imageSrc: "reading-history/kyou-kara-maou.jpg" },
+      { title: "终结的炽天使", mediaType: "anime" as const, imageSrc: "reading-history/owari-no-seraph.jpg" },
+      { title: "黑执事", mediaType: "anime" as const, imageSrc: "reading-history/kuroshitsuji.jpg" },
     ],
   },
   {
@@ -381,8 +391,8 @@ export const readingHistorySlides = [
     durationInFrames: 803,
     text: "但所有的转变都发生在一个时代落幕的时候。二零一七年暑假《独占我的英雄》播出后，它的播放量和弹幕热度都在全站遥遥领先。二零一六年度动漫销量榜出来，《冰上的尤里》直接霸榜，轻松超过了销量质检员物语系列。然而可能就是盛极必反，《独占我的英雄》播出后没多久，在国庆期间就下架了，之后B站干脆删除了纯爱标签。",
     works: [
-      { title: "独占我的英雄", mediaType: "anime" as const, year: "2017", imageSrc: "" },
-      { title: "冰上的尤里", mediaType: "anime" as const, year: "2016", imageSrc: "" },
+      { title: "独占我的英雄", mediaType: "anime" as const, year: "2017", imageSrc: "reading-history/hatsukoi-zombie.jpg" },
+      { title: "冰上的尤里", mediaType: "anime" as const, year: "2016", imageSrc: "reading-history/yuri-on-ice.jpg" },
     ],
   },
   {
@@ -420,7 +430,7 @@ export const readingHistorySlides = [
     durationInFrames: 509,
     text: "二零一八年，我接触到了《向阳之处必有声》的CD抓马，有人把声音配上漫画的画面，做成了一种早期的动态漫，其实根本不动。这最后把我的视野拓展到了漫画的领域。这之前我几乎不看漫画，毕竟看动漫还能边抄作业边看。",
     works: [
-      { title: "向阳之处必有声", mediaType: "manga" as const, imageSrc: "" },
+      { title: "向阳之处必有声", mediaType: "manga" as const, imageSrc: "reading-history/hidamari-ga-kikoeru.jpg" },
     ],
   },
   {
@@ -431,10 +441,10 @@ export const readingHistorySlides = [
     durationInFrames: 634,
     text: "虽然那之后我看的日本漫画依旧不多，只在闲时能静下心来看几部，但胜在都还不错。一八年看《只有花知晓》和《星期恋人》在短篇中不断的拉扯，二零年看《春风的异邦人》感受那种平淡的陪伴，二二年看《佐佐木与宫野》品一下经典的青春酸甜恋爱。",
     works: [
-      { title: "只有花知晓", mediaType: "manga" as const, imageSrc: "" },
-      { title: "星期恋人", mediaType: "manga" as const, imageSrc: "" },
-      { title: "春风的异邦人", mediaType: "manga" as const, imageSrc: "" },
-      { title: "佐佐木与宫野", mediaType: "manga" as const, imageSrc: "" },
+      { title: "只有花知晓", mediaType: "manga" as const, imageSrc: "reading-history/hana-ni-shirase.jpg" },
+      { title: "星期恋人", mediaType: "manga" as const, imageSrc: "reading-history/suki-na-ko-ga-arukeba.jpg" },
+      { title: "春风的异邦人", mediaType: "manga" as const, imageSrc: "reading-history/haru-no-mei.jpg" },
+      { title: "佐佐木与宫野", mediaType: "manga" as const, imageSrc: "reading-history/sasaki-to-miyano.jpg" },
     ],
   },
   {
@@ -445,9 +455,9 @@ export const readingHistorySlides = [
     durationInFrames: 732,
     text: "《海边的异邦人》《春风的异邦人》《雪之下的恋爱情愫》——纪伊老师的作品总给我一种和看巫哲的文差不多的安全感，他把故事扎根在社会背景里，鲜活可爱的人物，在漫长的时光里坚定的陪伴在一起。这样简单的故事，却给了我无数能量。当然更新也是一段漫长时光，就从电影播出开始看，到现在居然也五年了。",
     works: [
-      { title: "海边的异邦人", mediaType: "manga" as const, imageSrc: "" },
-      { title: "春风的异邦人", mediaType: "manga" as const, imageSrc: "" },
-      { title: "雪之下的恋爱情愫", mediaType: "manga" as const, imageSrc: "" },
+      { title: "海边的异邦人", mediaType: "manga" as const, imageSrc: "reading-history/umibe-no-etranger.jpg" },
+      { title: "春风的异邦人", mediaType: "manga" as const, imageSrc: "reading-history/haru-no-mei-02.jpg" },
+      { title: "雪之下的恋爱情愫", mediaType: "manga" as const, imageSrc: "reading-history/yuki-no-shita.jpg" },
     ],
   },
   {
@@ -476,7 +486,7 @@ export const readingHistorySlides = [
     durationInFrames: 442,
     text: "但是柊真的就像太阳，照亮了我这个人生阶段的迷雾。就算我再怎么纠结某个情节、某种关系或者某个结局能不能接受，也改变不了——更多故事还在虚拟和现实的各个角落不断地发生。",
     works: [
-      { title: "Given-柊", mediaType: "anime" as const, imageSrc: "" },
+      { title: "Given-柊", mediaType: "anime" as const, imageSrc: "reading-history/given-hiragi.jpg" },
     ],
   },
   {

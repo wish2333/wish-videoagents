@@ -46,7 +46,7 @@ Slide = TitleSlide | TimelineMarkerSlide | NarrativeSlide | QuoteSlide | WorksGr
 |------|----------|
 | title | title, subtitle? |
 | timeline-marker | year, eraLabel? |
-| narrative / closing | text, year?, works? |
+| narrative / closing | text, year?, works?, cardSize? |
 | quote | text, attribution? |
 | works-grid | title?, works[] |
 | outro | channelName?, message? |
@@ -59,7 +59,11 @@ Slide = TitleSlide | TimelineMarkerSlide | NarrativeSlide | QuoteSlide | WorksGr
 | author? | string | 作者 |
 | mediaType | "manga" \| "anime" \| "novel" \| "audio-drama" | 媒体类型 |
 | year? | string | 年份 |
-| imageSrc | string | 图片路径（空字符串为占位） |
+| imageSrc | string | 图片路径（空字符串为占位），相对于 public/ 目录 |
+
+### cardSize（卡片尺寸覆盖）
+
+NarrativeSlide 支持 `cardSize?: [number, number]` 字段，用于覆盖默认的卡片尺寸计算。不设置时，按 works 数量自动选择尺寸。设置后，该幻灯片的所有作品卡片统一使用指定尺寸。
 
 ### ReadingHistoryData（顶层）
 
@@ -78,13 +82,18 @@ Slide = TitleSlide | TimelineMarkerSlide | NarrativeSlide | QuoteSlide | WorksGr
 
 ### NarrativeSlide（核心组件）
 
-三种布局策略，按 works 数量自动选择：
+三种布局策略，按 works 数量自动选择，可通过 `cardSize` 覆盖：
 
-| works 数量 | 布局 | 卡片尺寸 | 卡片方向 |
-|------------|------|----------|----------|
-| 1 | 左右排版（文左图右） | 420x560 | 3:4 竖向 |
-| 2 | 左右排版（文左图右） | 300x400 | 3:4 竖向 |
-| 3+ | 上下排版（文上图下） | 360x270 | 4:3 横向 |
+| works 数量 | 布局 | 默认卡片尺寸 | 卡片方向 |
+|------------|------|-------------|----------|
+| 1 | 左右排版（文左图右） | 400x530 | 3:4 竖向 |
+| 2 | 左右排版（文左图右） | 360x470 | 3:4 竖向 |
+| 3+ | 上下排版（文上图下） | 260x347 | 3:4 竖向 |
+
+**cardSize 覆盖**：在幻灯片数据中设置 `cardSize: [width, height]` 可覆盖默认尺寸，适用于特殊比例的图片。当前使用场景：
+- 广播剧封面（s2-n5 至 s4）：`[320, 320]`（1:1 正方形）
+- CV 照片（s3-n2）：`[200, 200]`（1:1 小正方形）
+- Given（s0-n1）：`[600, 450]`（4:3 横向）
 
 图片卡片设计：
 - 有图：封面图 + 底部渐变叠加标题/作者

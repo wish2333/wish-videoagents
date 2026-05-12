@@ -4,4 +4,5 @@ import ffmpeg from '@motion-canvas/ffmpeg';
 
 export default defineConfig({
   plugins: [motionCanvas(), ffmpeg()],
+  publicDir: '../../public',
 });

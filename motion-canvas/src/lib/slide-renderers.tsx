@@ -1,4 +1,4 @@
-import {Rect, Txt, Layout, Node, View2D} from '@motion-canvas/2d';
+import {Rect, Txt, Layout, Node, View2D, Img} from '@motion-canvas/2d';
 import {createRef, all, waitFor} from '@motion-canvas/core';
 import {DISPLAY_FONT, BODY_FONT, QUOTE_FONT} from './fonts';
 import {COLORS, CARD_DIMENSIONS, SPACING, CANVAS_WIDTH, CANVAS_HEIGHT} from './layout';
@@ -52,6 +52,7 @@ interface NarrativeSlide extends BaseSlide {
   text: string;
   year?: string;
   works?: ReferencedWork[];
+  cardSize?: [number, number];
 }
 
 interface QuoteSlide extends BaseSlide {
@@ -308,6 +309,7 @@ export function* renderNarrativeSlide(view: View2D, slide: NarrativeSlide, skipB
                 work={work}
                 index={i}
                 workCount={workCount}
+                cardSize={slide.cardSize}
               />
             ))}
           </Layout>
@@ -377,12 +379,13 @@ export function* renderNarrativeSlide(view: View2D, slide: NarrativeSlide, skipB
 
 // --- Work Card Node ---
 
-function WorkCardNode({work, index, workCount}: {work: ReferencedWork; index: number; workCount: number}) {
-  const dims = workCount === 1
+function WorkCardNode({work, index, workCount, cardSize}: {work: ReferencedWork; index: number; workCount: number; cardSize?: [number, number]}) {
+  const defaultDims = workCount === 1
     ? CARD_DIMENSIONS.SINGLE
     : workCount === 2
       ? CARD_DIMENSIONS.DUAL
       : CARD_DIMENSIONS.MANY;
+  const dims = cardSize ? {width: cardSize[0], height: cardSize[1]} : defaultDims;
 
   const hasImage = work.imageSrc && work.imageSrc.length > 0;
 
@@ -400,22 +403,63 @@ function WorkCardNode({work, index, workCount}: {work: ReferencedWork; index: nu
       clip
     >
       {hasImage ? (
+        <>
+          <Img
+            src={work.imageSrc}
+            width={dims.width}
+            height={dims.height}
+          />
+          <Rect
+            width={dims.width}
+            height={dims.height}
+            layout
+            direction="column"
+            justifyContent="flex-end"
+            padding={18}
+          >
+            <Txt
+              text={work.title}
+              fill={COLORS.cardOverlayTitle}
+              fontSize={17}
+              fontWeight={600}
+              fontFamily={BODY_FONT}
+              textWrap
+              textAlign="left"
+              width={dims.width - 36}
+              lineHeight={'124%'}
+              letterSpacing={-0.374}
+            />
+            {work.author && (
+              <Txt
+                text={work.author}
+                fill={COLORS.cardOverlayAuthor}
+                fontSize={13}
+                fontWeight={400}
+                fontFamily={BODY_FONT}
+                marginTop={2}
+              />
+            )}
+          </Rect>
+        </>
+      ) : (
         <Layout
           layout
           direction="column"
-          justifyContent="flex-end"
+          alignItems="center"
+          justifyContent="center"
           width={dims.width}
           height={dims.height}
           padding={18}
+          gap={8}
         >
           <Txt
             text={work.title}
-            fill={COLORS.cardOverlayTitle}
-            fontSize={17}
+            fill={COLORS.titleText}
+            fontSize={19}
             fontWeight={600}
             fontFamily={BODY_FONT}
             textWrap
-            textAlign="left"
+            textAlign="center"
             width={dims.width - 36}
             lineHeight={'124%'}
             letterSpacing={-0.374}
@@ -423,14 +467,7 @@ function WorkCardNode({work, index, workCount}: {work: ReferencedWork; index: nu
           {work.author && (
             <Txt
               text={work.author}
-              fill={COLORS.cardOverlayAuthor}
-              fontSize={13}
-              fontWeight={400}
-              fontFamily={BODY_FONT}
-              marginTop={2}
-            />
-          )}
-        </Layout>
+              fill={COLORS.sectionTitle}
       ) : (
         <Layout
           layout

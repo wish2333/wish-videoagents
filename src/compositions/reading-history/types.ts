@@ -42,6 +42,7 @@ export interface NarrativeSlide extends BaseSlide {
   text: string;
   year?: string;
   works?: ReferencedWork[];
+  cardSize?: [number, number];
 }
 
 export interface QuoteSlide extends BaseSlide {

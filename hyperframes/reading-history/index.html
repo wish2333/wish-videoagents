@@ -124,8 +124,8 @@
       html += '<div id="ns-text-' + slide.id + '" style="color:' + textColor + '; font-size:' + fontSize + 'px; font-weight:400; line-height:1.47; letter-spacing:-0.374px; text-align:left; white-space:pre-wrap; opacity:0; flex:1; min-width:0;">' + slide.text + '</div>';
       html += '<div style="display:flex; flex-direction:column; gap:24px; flex-shrink:0;">';
       for (var i = 0; i < Math.min(workCount, 2); i++) {
-        var w = workCount === 1 ? SINGLE_W : DUAL_W;
-        var h = workCount === 1 ? SINGLE_H : DUAL_H;
+        var w = slide.cardSize ? slide.cardSize[0] : (workCount === 1 ? SINGLE_W : DUAL_W);
+        var h = slide.cardSize ? slide.cardSize[1] : (workCount === 1 ? SINGLE_H : DUAL_H);
         html += '<div id="ns-card-' + slide.id + '-' + i + '" style="transform:scale(0);">' + createWorkCardHTML(slide.works[i], w, h) + '</div>';
       }
       html += '</div></div>';
@@ -134,7 +134,7 @@
       html += '<div style="color:' + textColor + '; font-size:' + fontSize + 'px; font-weight:400; line-height:1.47; letter-spacing:-0.374px; text-align:center; white-space:pre-wrap; opacity:0; max-width:1400px;" id="ns-text-' + slide.id + '">' + slide.text + '</div>';
       html += '<div style="display:flex; justify-content:center; gap:20px;">';
       for (var i = 0; i < Math.min(workCount, 6); i++) {
-        html += '<div id="ns-card-' + slide.id + '-' + i + '" style="transform:scale(0);">' + createWorkCardHTML(slide.works[i], MANY_W, MANY_H) + '</div>';
+        html += '<div id="ns-card-' + slide.id + '-' + i + '" style="transform:scale(0);">' + createWorkCardHTML(slide.works[i], slide.cardSize ? slide.cardSize[0] : MANY_W, slide.cardSize ? slide.cardSize[1] : MANY_H) + '</div>';
       }
       html += '</div></div>';
     }
