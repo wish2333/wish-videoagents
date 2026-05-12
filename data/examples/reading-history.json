@@ -1,0 +1,417 @@
+{
+  "title": "Animemory #0 - 我的耽美阅读史",
+  "subtitle": "从八岁到研一，一路走来的阅读回忆",
+  "channelName": "Animemory",
+  "audioSrc": "",
+  "slides": [
+    {
+      "id": "s0-title",
+      "type": "title",
+      "sectionIndex": 0,
+      "sectionTitle": "引子",
+      "durationInFrames": 180,
+      "title": "Animemory #0\n我的耽美阅读史",
+      "subtitle": "从八岁到研一，一路走来的阅读回忆"
+    },
+    {
+      "id": "s0-narrative-1",
+      "type": "narrative",
+      "sectionIndex": 0,
+      "sectionTitle": "引子",
+      "durationInFrames": 300,
+      "text": "最近Given在香港办展，我预约了26号去看。其实Given在2019年动漫刚出的时候我就看了，首先我就有点没看懂，而且也不太喜欢\"有个死去的白月光\"这类青春伤痛文学，当时甚至觉得要看乐队和三角恋，还不如2017年的《覆面系Noise》。",
+      "works": [
+        { "title": "Given", "mediaType": "anime", "imageSrc": "" },
+        { "title": "覆面系Noise", "mediaType": "anime", "year": "2017", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s0-narrative-2",
+      "type": "narrative",
+      "sectionIndex": 0,
+      "sectionTitle": "引子",
+      "durationInFrames": 300,
+      "text": "不过最近终于重新补完了Given完整故事，虽说没到\"爱上\"的程度，但柊这对纯爱CP是真戳我——看《柊Mix》的时候，好像也稍微懂了点这个故事的精彩之处。关于柊和Given我们有机会在专题里再细聊，今天主要还是想回顾一下我的耽美阅读史。"
+    },
+    {
+      "id": "s0-narrative-3",
+      "type": "narrative",
+      "sectionIndex": 0,
+      "sectionTitle": "引子",
+      "durationInFrames": 300,
+      "text": "当然，我应该算是\"纯爱\"还被当成主流标签的年代的人。特意提\"纯爱\"，是因为Given也不算完全的纯爱，它关于替身文学、始乱终弃的争议并不少，我当初也正因为这点拒绝了它。现在终于能接受这样的故事，才想起自己最开始，其实也是从\"不纯爱\"的东西入的门。"
+    },
+
+    {
+      "id": "s1-timeline",
+      "type": "timeline-marker",
+      "sectionIndex": 1,
+      "sectionTitle": "启蒙期",
+      "durationInFrames": 90,
+      "year": "2010",
+      "eraLabel": "启蒙期"
+    },
+    {
+      "id": "s1-narrative-1",
+      "type": "narrative",
+      "sectionIndex": 1,
+      "sectionTitle": "启蒙期",
+      "durationInFrames": 300,
+      "text": "我大概从八岁起开始完全记事。那是2010年左右吧，我妈当班主任时缴了两本书，成了我最早的阅读启蒙。当然书不算什么\"好书\"，甚至可以说\"毁一生\"了。一本是大名鼎鼎的《斗罗大陆》，另一本是本言情小说，名字早忘了，现在倒还收着。",
+      "works": [
+        { "title": "斗罗大陆", "mediaType": "novel", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s1-narrative-2",
+      "type": "narrative",
+      "sectionIndex": 1,
+      "sectionTitle": "启蒙期",
+      "durationInFrames": 300,
+      "text": "这本言情是个狗血三角恋，故事不怎么样，但当时莫名被男主的描写吸引。多年后搜续作才发现更炸裂：居然发展成四角恋，女主没跟俩男主成，反倒和女二有了牵扯，最后还被第五个人截胡了。这本书不是重点，但它让我开始偶尔翻翻表妹的言情杂志，还读了两本言情电竞文。"
+    },
+
+    {
+      "id": "s2-timeline",
+      "type": "timeline-marker",
+      "sectionIndex": 2,
+      "sectionTitle": "初中觉醒",
+      "durationInFrames": 90,
+      "year": "2013-2015",
+      "eraLabel": "初中觉醒"
+    },
+    {
+      "id": "s2-narrative-1",
+      "type": "narrative",
+      "sectionIndex": 2,
+      "sectionTitle": "初中觉醒",
+      "durationInFrames": 300,
+      "text": "初中时，好几部作品让我突然\"开了窍\"。一部是《魔道祖师》的某部番外漫画，被几个腐女朋友按头看的，说实话挺辣眼睛——把受的身体画得像女生，特别怪异。另一部是漫画《天行轶事》，当时在班上传着看，我只看了前两章，就被两个男主的羁绊深深吸引。",
+      "works": [
+        { "title": "魔道祖师", "mediaType": "manga", "imageSrc": "" },
+        { "title": "天行轶事", "mediaType": "manga", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s2-narrative-2",
+      "type": "narrative",
+      "sectionIndex": 2,
+      "sectionTitle": "初中觉醒",
+      "durationInFrames": 300,
+      "text": "结果最后他俩居然真戴上红盖头结婚了！唉，中间看到游浩贤擅自离开那段，真的太揪心了，要不是故事，这一分开，说不定就是永别了。"
+    },
+    {
+      "id": "s2-narrative-3",
+      "type": "narrative",
+      "sectionIndex": 2,
+      "sectionTitle": "初中觉醒",
+      "durationInFrames": 300,
+      "text": "然后是BL动漫《世界第一初恋》和科幻动漫《来自新世界》——那时候B站还顶着\"全世界最大同性交友网站\"的戏称，正处在鼎盛期，资源特别多，看番的弹幕体验也绝，又刚好赶上扩圈初期，\"纯爱\"在当时风头正盛。",
+      "works": [
+        { "title": "世界第一初恋", "mediaType": "anime", "imageSrc": "" },
+        { "title": "来自新世界", "mediaType": "anime", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s2-narrative-4",
+      "type": "narrative",
+      "sectionIndex": 2,
+      "sectionTitle": "初中觉醒",
+      "durationInFrames": 300,
+      "text": "说实话，能在网上和一群不知道男生女生的B友一起看卖腐、看纯爱，在弹幕里刷\"yoooooo\"。这种近乎完美的弹幕环境，甚至说不管看什么类型的片子，都有这么友好的氛围，这段时光我大概永远忘不了。"
+    },
+    {
+      "id": "s2-narrative-5",
+      "type": "narrative",
+      "sectionIndex": 2,
+      "sectionTitle": "初中觉醒",
+      "durationInFrames": 300,
+      "text": "最后是部广播剧：如果说《来自新世界》靠一段激情舌吻冲击了我的视觉，那《我们假戏真做吧》就是用声音带我进了新世界——我发现好听的声音能给人\"充能\"，优质的剪辑能让人沉进故事里，更重要的是，我好像真的喜欢上两个男孩子的恋爱故事。",
+      "works": [
+        { "title": "我们假戏真做吧", "mediaType": "audio-drama", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s2-narrative-6",
+      "type": "narrative",
+      "sectionIndex": 2,
+      "sectionTitle": "初中觉醒",
+      "durationInFrames": 300,
+      "text": "可惜那时候商配还没火，中抓却该是走向末路了：《假戏真做》里常提的那个粉色论坛，我已经搜不到了，而给我构建起中抓世界的作者，也早被不知道什么人气到退坑。"
+    },
+
+    {
+      "id": "s3-header",
+      "type": "quote",
+      "sectionIndex": 3,
+      "sectionTitle": "广播剧 - 网配时代",
+      "durationInFrames": 180,
+      "text": "广播剧——追忆已经逝去的时代"
+    },
+    {
+      "id": "s3-timeline",
+      "type": "timeline-marker",
+      "sectionIndex": 3,
+      "sectionTitle": "广播剧 - 网配时代",
+      "durationInFrames": 90,
+      "year": "2015-2016",
+      "eraLabel": "网配时代"
+    },
+    {
+      "id": "s3-narrative-1",
+      "type": "narrative",
+      "sectionIndex": 3,
+      "sectionTitle": "广播剧 - 网配时代",
+      "durationInFrames": 300,
+      "text": "娇羞胡萝卜大大连续的几篇同系列的网配文，确实给我了解\"网配\"提供了一个很好的平台。与此同时，那时候产量爆炸的网配圈，也把这些作品都做得高质量，真让我\"吃饱了\"。网配文和网配圈当然不一样，倒不如说，是它们一起给我造了个虚幻又美好的梦。之后一段时间，我几乎把能找到的网配相关的广播剧都听了一遍，也知道了猫耳FM，开始在排行榜里找剧听。"
+    },
+    {
+      "id": "s3-narrative-2",
+      "type": "narrative",
+      "sectionIndex": 3,
+      "sectionTitle": "广播剧 - 网配时代",
+      "durationInFrames": 300,
+      "text": "嘿，您猜怎么着，我居然看到《假戏真做》里面声音很好听的受役在一个剧里面配攻，搭戏的刚好是《假戏真做》姊妹篇里的受役，我勒个梦幻联动，赶紧去听了，真是个精彩的故事。而这个故事的原作，叫巫哲。不知道有多少人看过这部巫哲的第三部完结作《非爱不可》，当时不懂别的，就觉得俩主役声音好听，故事写得也好，节奏舒服，还特别现实。",
+      "works": [
+        { "title": "非爱不可", "author": "巫哲", "mediaType": "audio-drama", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s3-narrative-3",
+      "type": "narrative",
+      "sectionIndex": 3,
+      "sectionTitle": "广播剧 - 网配时代",
+      "durationInFrames": 300,
+      "text": "那年是2016年，我14岁，把网配广播剧浅浅刷了一轮，《网游之我不配》给我印象挺深：一是声音好听，二是故事勾人，三是主角的\"特殊偏好\"，对我当时幼小的心灵还挺有冲击，也算是性癖启蒙作了。另一部印象深刻的广播剧就不一样了，那是\"想要一辈子都别再接触的\"《一醉经年》，其实原因不必多说，如果和我一样不能接受188的故事的朋友肯定能够理解。不过要我说，当年那是真黄暴，一个剧哪里剪辑差都行，就是车必须豪华，谁知道我对剪辑的爱好来源于一辆又一辆精装修的车呢？",
+      "works": [
+        { "title": "网游之我不配", "mediaType": "audio-drama", "imageSrc": "" },
+        { "title": "一醉经年", "mediaType": "audio-drama", "imageSrc": "" }
+      ]
+    },
+
+    {
+      "id": "s4-timeline",
+      "type": "timeline-marker",
+      "sectionIndex": 4,
+      "sectionTitle": "广播剧 - 商配时代",
+      "durationInFrames": 90,
+      "year": "2017-2019",
+      "eraLabel": "商配时代"
+    },
+    {
+      "id": "s4-narrative-1",
+      "type": "narrative",
+      "sectionIndex": 4,
+      "sectionTitle": "广播剧 - 商配时代",
+      "durationInFrames": 300,
+      "text": "2017年，第一批商配广播剧上线，我首先听的那必然是《撒野》啊，巫哲，这不老熟人吗！往后，一部又一部的商配广播剧开始掏我裤兜，最早这批商配，也陪着我走完了整个高中。其中对我影响最大、甚至帮我扛过最后冲刺阶段的，是《一个钢镚儿》。",
+      "works": [
+        { "title": "撒野", "author": "巫哲", "mediaType": "audio-drama", "imageSrc": "" },
+        { "title": "一个钢镚儿", "mediaType": "audio-drama", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s4-narrative-2",
+      "type": "narrative",
+      "sectionIndex": 4,
+      "sectionTitle": "广播剧 - 商配时代",
+      "durationInFrames": 300,
+      "text": "比起《撒野》《某某》《伪装学渣》，《钢镚》跳脱出了高考体系，而这恰恰是我高考最后阶段的压力来源——重点高中的理科重点班，对我这种普通人来说简直是炼狱。就算广播剧里的学霸再意气风发，高三时我也没勇气点开那些剧了。但初一和晏航不一样，他们在普通的世界里活得平凡又出众，一直\"在路上\"，让我稍微能感受到脚下的实感，能继续撑下去。",
+      "works": [
+        { "title": "某某", "mediaType": "audio-drama", "imageSrc": "" },
+        { "title": "伪装学渣", "mediaType": "audio-drama", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s4-narrative-3",
+      "type": "narrative",
+      "sectionIndex": 4,
+      "sectionTitle": "广播剧 - 商配时代",
+      "durationInFrames": 300,
+      "text": "另外，还有《嚣张》，它倒是没给我带来任何压力，也成为了我播放列表里面不断循环的一部剧，可能还是人物太可爱、太有意思了！而且听剧时一个又一个神转场听着我心痒痒，后面补原著才发现巫哲大大就是这么转场的，神了！",
+      "works": [
+        { "title": "嚣张", "author": "巫哲", "mediaType": "audio-drama", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s4-works",
+      "type": "works-grid",
+      "sectionIndex": 4,
+      "sectionTitle": "广播剧 - 商配时代",
+      "durationInFrames": 240,
+      "title": "高中时期的商配广播剧",
+      "works": [
+        { "title": "撒野", "author": "巫哲", "mediaType": "audio-drama", "imageSrc": "" },
+        { "title": "一个钢镚儿", "mediaType": "audio-drama", "imageSrc": "" },
+        { "title": "嚣张", "author": "巫哲", "mediaType": "audio-drama", "imageSrc": "" },
+        { "title": "某某", "mediaType": "audio-drama", "imageSrc": "" },
+        { "title": "伪装学渣", "mediaType": "audio-drama", "imageSrc": "" }
+      ]
+    },
+
+    {
+      "id": "s5-timeline",
+      "type": "timeline-marker",
+      "sectionIndex": 5,
+      "sectionTitle": "大学与回归",
+      "durationInFrames": 90,
+      "year": "2019-2022",
+      "eraLabel": "大学与回归"
+    },
+    {
+      "id": "s5-narrative-1",
+      "type": "narrative",
+      "sectionIndex": 5,
+      "sectionTitle": "大学与回归",
+      "durationInFrames": 300,
+      "text": "上大学后，因为三次元的生活，有段时间我好像又变回了小说和广播剧的\"普通听众\"——普通地等更新、普通地听故事、普通地看小说。现在回想起来，对好多剧的感受都记不清了。可从大三开始，我在生活、学业、工作上压力倍增，也陷入了迷茫，好像又逃回了广播剧和小说的世界里，疯狂寻找共鸣、汲取能量。果然对阿宅来说，虚拟的世界永远是快乐老家。"
+    },
+    {
+      "id": "s5-narrative-2",
+      "type": "narrative",
+      "sectionIndex": 5,
+      "sectionTitle": "大学与回归",
+      "durationInFrames": 300,
+      "text": "现在我还没法用\"回顾\"的视角说这段时间——就算已经毕业，我也没完全走出那个阶段。但我很清楚，那段日子已经是过去式了：时代变得太快，我也长得太快，有时候真想停下来，可又被生活推着走。不过随着阅历多了，我对很多耽美作品也有了新看法——有些作品甚至超越了耽美和恋爱本身，在世界观、历史性、关注特殊人群这些方面都很有特色，后面有机会可以做专题聊。还有翻播放列表时也挺感慨：从初中到大学，原来我听了这么多剧、看了这么多小说。"
+    },
+
+    {
+      "id": "s6-timeline",
+      "type": "timeline-marker",
+      "sectionIndex": 6,
+      "sectionTitle": "动漫时代",
+      "durationInFrames": 90,
+      "year": "2016-2017",
+      "eraLabel": "动漫时代"
+    },
+    {
+      "id": "s6-narrative-1",
+      "type": "narrative",
+      "sectionIndex": 6,
+      "sectionTitle": "动漫时代",
+      "durationInFrames": 300,
+      "text": "其实在开始认识广播剧之前，我早已沉沦在动漫的世界里了，还记得2016年夏天，我一口气看了四五十部动漫，收假时回想起来，自己都吓了一跳。其中除了《世界第一初恋》《纯情罗曼史》，我还看了《同级生》《今天开始做魔王》《终结的炽天使》《K》《黑执事》《Free！》，还有《龙与虎》《赤发白雪姬》《元气少女缘结神》这类恋爱番。",
+      "works": [
+        { "title": "纯情罗曼史", "mediaType": "anime", "imageSrc": "" },
+        { "title": "同级生", "mediaType": "anime", "imageSrc": "" },
+        { "title": "Free!", "mediaType": "anime", "imageSrc": "" },
+        { "title": "K", "mediaType": "anime", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s6-narrative-2",
+      "type": "narrative",
+      "sectionIndex": 6,
+      "sectionTitle": "动漫时代",
+      "durationInFrames": 300,
+      "text": "当时分不清恋爱、纯爱、腐和女性向的区别，只是跟这弹幕的氛围一起赞叹人物之间微妙的关系性——一个吻、一个眼神、一场别扭的争吵、一次无言的默契配合，满屏的\"yoooooooo\"，很多事情也就无需多言。"
+    },
+    {
+      "id": "s6-narrative-3",
+      "type": "narrative",
+      "sectionIndex": 6,
+      "sectionTitle": "动漫时代",
+      "durationInFrames": 300,
+      "text": "但所有转变，都发生在一个时代落幕的时候。2017年暑假《独占我的英雄》播出后，它的播放量和弹幕热度在全站都遥遥领先。2016年度动漫销量榜出来，《冰上的尤里》直接霸榜，轻松超过了\"销量质检员\"物语系列。然而可能就是盛极必反，《独占我的英雄》播出没多久，国庆期间就下架了，之后B站干脆删掉了\"纯爱\"标签。",
+      "works": [
+        { "title": "独占我的英雄", "mediaType": "anime", "year": "2017", "imageSrc": "" },
+        { "title": "冰上的尤里", "mediaType": "anime", "year": "2016", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s6-narrative-4",
+      "type": "narrative",
+      "sectionIndex": 6,
+      "sectionTitle": "动漫时代",
+      "durationInFrames": 300,
+      "text": "与此同时，番剧版权开始规范化：旧的字幕组资源下架，正版重新上架，弹幕清零。B站也开始大规模扩圈，好像以前那片小天地，一下子就塌了。我当然怀念那个不管观众是什么爱好、什么属性，都能在观剧时各取所需，发弹幕时也彼此尊重，用弹幕礼仪护着一个像梦一样的氛围。"
+    },
+    {
+      "id": "s6-narrative-5",
+      "type": "narrative",
+      "sectionIndex": 6,
+      "sectionTitle": "动漫时代",
+      "durationInFrames": 300,
+      "text": "我懂当时的高接受度，是因为大家都是阅片无数的老\"绅士\"，可等视频平台慢慢走向大众，纯爱就成了不能公开讨论的话题。但我还是不甘心——当纯爱又变回小众爱好，缩回圈地自萌的范畴，作为男生的我，也彻底没了能讨论的地方。再加上我三次元里的人际关系也有变动，孤独感就更重了，从那以后，我好像就成了局外人、纯粹的观众，再多感触也没法分享，遗憾啊，是真遗憾。"
+    },
+
+    {
+      "id": "s7-timeline",
+      "type": "timeline-marker",
+      "sectionIndex": 7,
+      "sectionTitle": "漫画时代",
+      "durationInFrames": 90,
+      "year": "2018-2022",
+      "eraLabel": "漫画时代"
+    },
+    {
+      "id": "s7-narrative-1",
+      "type": "narrative",
+      "sectionIndex": 7,
+      "sectionTitle": "漫画时代",
+      "durationInFrames": 300,
+      "text": "2018年，我接触到了《向阳之处必有声》的CD Drama——有人把声音配上漫画画面，做成了一种早期\"动态漫\"，其实根本不动。这又把我的视野拓展到了漫画领域。这之前我几乎不看漫画，毕竟看动漫还能边抄作业边看，哈哈。但是漫画的世界的确更广阔，即使我把看过的BL动漫报菜名还是有二三十部的，对比漫画的世界也还是九牛一毛。",
+      "works": [
+        { "title": "向阳之处必有声", "mediaType": "manga", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s7-narrative-2",
+      "type": "narrative",
+      "sectionIndex": 7,
+      "sectionTitle": "漫画时代",
+      "durationInFrames": 300,
+      "text": "虽然那之后我看的漫画依旧不多，只在闲时能静下心看几部，但是胜在都还不错。18年看《只有花知晓》和《星期恋人》在短篇中不断的拉扯，20年看《春风的异邦人》，感受那种平淡的陪伴，22年看《佐佐木与宫野》品经典的青春酸甜恋爱。",
+      "works": [
+        { "title": "只有花知晓", "mediaType": "manga", "imageSrc": "" },
+        { "title": "星期恋人", "mediaType": "manga", "imageSrc": "" },
+        { "title": "春风的异邦人", "mediaType": "manga", "imageSrc": "" },
+        { "title": "佐佐木与宫野", "mediaType": "manga", "imageSrc": "" }
+      ]
+    },
+    {
+      "id": "s7-narrative-3",
+      "type": "narrative",
+      "sectionIndex": 7,
+      "sectionTitle": "漫画时代",
+      "durationInFrames": 300,
+      "text": "《海边的异邦人》《春风的异邦人》《雪下的恋爱情愫》——纪伊老师的作品总给我一种和看巫哲的文差不多的安心感，扎根在日本的社会背景里，鲜活可爱的人物，在漫长的时光里面坚定地陪伴一起。简单的故事，却给了我无数能量。当然，等更新也是一段漫长的时光，就我从电影播出开始看，这也五年了！"
+    },
+    {
+      "id": "s7-narrative-4",
+      "type": "narrative",
+      "sectionIndex": 7,
+      "sectionTitle": "漫画时代",
+      "durationInFrames": 300,
+      "text": "国漫和韩漫我倒是看得不算少，国漫主要是在21年到23年期间看得多，后来平台限制变严，我没了氪金的动力，就不怎么看了。不过国漫区有少见的男性BL漫画家，画风好、剧情也棒，就算最近没看，也能很容易想起来。韩漫嘛...味大无需多言，虽然不是没有好故事，但是我大多是当素材看的，确实很多戳XP的R18，这个太私密了不多说哈哈哈。"
+    },
+
+    {
+      "id": "s8-closing-1",
+      "type": "closing",
+      "sectionIndex": 8,
+      "sectionTitle": "尾声",
+      "durationInFrames": 300,
+      "text": "最后不如我们就再回到Given的故事。死去的白月光、没能留住的白月光，还有那些背负着过往的角色怎么迈开步子，都太沉重了——哪怕我只浅尝一点，也会被勾起好多思绪。但柊真的就像个太阳，照亮了我这个人生阶段的迷雾。就算我再怎么纠结某个情节、某段关系、某个结局能不能接受，也改变不了——更多故事还在现实和虚拟世界的各个角落不断发生。"
+    },
+    {
+      "id": "s8-closing-2",
+      "type": "closing",
+      "sectionIndex": 8,
+      "sectionTitle": "尾声",
+      "durationInFrames": 300,
+      "text": "证明\"我非任何非我\"，本就是条漫长又永恒的路，但在成长的道路上我清楚的知道：我欣赏谁、敬佩谁、喜欢哪些人，也爱所有值得被爱的存在。这样，就够我踏踏实实地走下去了。"
+    },
+
+    {
+      "id": "s9-outro",
+      "type": "outro",
+      "sectionIndex": 9,
+      "sectionTitle": "结语",
+      "durationInFrames": 240,
+      "channelName": "Animemory",
+      "message": "如果有能看到这里的观众，真的非常感谢。三连关注支持一下，爱你~"
+    }
+  ],
+  "totalDurationFrames": 10740
+}

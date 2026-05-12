@@ -1,0 +1,62 @@
+import type { Theme } from "../types";
+
+export const glassmorphismTheme: Theme = {
+  colors: {
+    primary: "rgba(255, 255, 255, 0.06)",
+    secondary: "rgba(255, 255, 255, 0.1)",
+    accent: "#7dd3fc",
+    textPrimary: "#f2f4ff",
+    textSecondary: "#c3c8e6",
+    background: "#0b1024",
+    cardBackground: "rgba(255, 255, 255, 0.06)",
+    subtitleBackground: "rgba(11, 16, 36, 0.85)",
+    subtitleText: "#f2f4ff",
+    gradientStart: "#7dd3fc",
+    gradientEnd: "#f0abfc",
+  },
+  fonts: {
+    title: "Inter, Noto Sans SC, sans-serif",
+    body: "Inter, Noto Sans SC, sans-serif",
+    subtitle: "Inter, Noto Sans SC, sans-serif",
+  },
+  typography: {
+    titleSize: 74,
+    titleWeight: 700,
+    bodySize: 32,
+    subtitleSize: 28,
+    tagSize: 32,
+    tagTextTransform: "none",
+    tagLetterSpacing: "0px",
+    kickerSize: 26,
+    kickerLetterSpacing: "5px",
+    kickerTextTransform: "uppercase",
+  },
+  effects: {
+    cardBorder: "1px solid rgba(255, 255, 255, 0.18)",
+    cardBorderRadius: 22,
+    cardShadow: "0 20px 60px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.12)",
+    cardBackdropFilter: "blur(28px) saturate(180%)",
+    pillBorder: "1px solid rgba(255, 255, 255, 0.18)",
+    pillBorderRadius: 20,
+    imageBorderRadius: 18,
+    imageBorder: "1px solid rgba(255, 255, 255, 0.18)",
+    titleLetterSpacing: "0px",
+    titleTextTransform: "none",
+    backgroundOverlay: "radial-gradient(60% 60% at 20% 20%, rgba(125, 211, 252, 0.3), transparent 60%), radial-gradient(50% 50% at 80% 30%, rgba(192, 132, 252, 0.28), transparent 60%), radial-gradient(60% 60% at 60% 90%, rgba(240, 171, 252, 0.25), transparent 60%)",
+  },
+  spacing: {
+    pagePadding: 80,
+    cardPadding: 44,
+    elementGap: 24,
+  },
+  layout: {
+    landscape: { width: 1920, height: 1080 },
+    portrait: { width: 1080, height: 1920 },
+  },
+  animation: {
+    defaultDuration: 15,
+    titleCardDuration: 90,
+    transitionDuration: 10,
+  },
+  fps: 30,
+};

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(bunx tsc *)",
+      "mcp__plugin_ecc_github__get_file_contents",
+      "mcp__plugin_claude-mem_mcp-search__smart_outline",
+      "Bash(Get-Content *)",
+      "mcp__plugin_claude-mem_mcp-search__get_observations",
+      "mcp__plugin_ecc_sequential-thinking__sequentialthinking",
+      "mcp__plugin_ecc_exa__web_fetch_exa"
+    ]
+  }
+}

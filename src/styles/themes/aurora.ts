@@ -1,0 +1,62 @@
+import type { Theme } from "../types";
+
+export const auroraTheme: Theme = {
+  colors: {
+    primary: "rgba(255, 255, 255, 0.05)",
+    secondary: "rgba(255, 255, 255, 0.08)",
+    accent: "#5ef2c6",
+    textPrimary: "#e8f0ff",
+    textSecondary: "#b4c4e4",
+    background: "#06091c",
+    cardBackground: "rgba(255, 255, 255, 0.06)",
+    subtitleBackground: "rgba(6, 9, 28, 0.85)",
+    subtitleText: "#e8f0ff",
+    gradientStart: "#5ef2c6",
+    gradientEnd: "#c984ff",
+  },
+  fonts: {
+    title: "Inter, Noto Sans SC, sans-serif",
+    body: "Inter, Noto Sans SC, sans-serif",
+    subtitle: "Inter, Noto Sans SC, sans-serif",
+  },
+  typography: {
+    titleSize: 74,
+    titleWeight: 700,
+    bodySize: 32,
+    subtitleSize: 28,
+    tagSize: 32,
+    tagTextTransform: "none",
+    tagLetterSpacing: "0px",
+    kickerSize: 26,
+    kickerLetterSpacing: "5px",
+    kickerTextTransform: "uppercase",
+  },
+  effects: {
+    cardBorder: "1px solid rgba(180, 220, 255, 0.14)",
+    cardBorderRadius: 20,
+    cardShadow: "0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08)",
+    cardBackdropFilter: "blur(24px) saturate(160%)",
+    imageBorderRadius: 16,
+    imageBorder: "1px solid rgba(180, 220, 255, 0.14)",
+    titleLetterSpacing: "0px",
+    titleTextTransform: "none",
+    pillBorder: "1px solid rgba(180, 220, 255, 0.14)",
+    pillBorderRadius: 20,
+    backgroundOverlay: "radial-gradient(60% 50% at 20% 10%, rgba(94, 242, 198, 0.35), transparent 70%), radial-gradient(55% 50% at 80% 20%, rgba(122, 162, 255, 0.32), transparent 70%), radial-gradient(70% 60% at 50% 100%, rgba(201, 132, 255, 0.3), transparent 70%)",
+  },
+  spacing: {
+    pagePadding: 80,
+    cardPadding: 44,
+    elementGap: 24,
+  },
+  layout: {
+    landscape: { width: 1920, height: 1080 },
+    portrait: { width: 1080, height: 1920 },
+  },
+  animation: {
+    defaultDuration: 15,
+    titleCardDuration: 90,
+    transitionDuration: 10,
+  },
+  fps: 30,
+};

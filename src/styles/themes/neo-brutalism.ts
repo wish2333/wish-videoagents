@@ -1,0 +1,62 @@
+import type { Theme } from "../types";
+
+export const neoBrutalismTheme: Theme = {
+  colors: {
+    primary: "#ffffff",
+    secondary: "#fff38a",
+    accent: "#ffd400",
+    textPrimary: "#000000",
+    textSecondary: "#222222",
+    background: "#fffef0",
+    cardBackground: "#ffffff",
+    subtitleBackground: "rgba(0, 0, 0, 0.85)",
+    subtitleText: "#ffffff",
+    gradientStart: "#ffd400",
+    gradientEnd: "#ff5ca8",
+  },
+  fonts: {
+    title: "Archivo Black, Space Grotesk, Noto Sans SC, sans-serif",
+    body: "Space Grotesk, Inter, Noto Sans SC, sans-serif",
+    subtitle: "Space Grotesk, Inter, Noto Sans SC, sans-serif",
+  },
+  typography: {
+    titleSize: 80,
+    titleWeight: 900,
+    bodySize: 34,
+    subtitleSize: 28,
+    tagSize: 30,
+    tagTextTransform: "uppercase",
+    tagLetterSpacing: "1px",
+    kickerSize: 24,
+    kickerLetterSpacing: "6px",
+    kickerTextTransform: "uppercase",
+  },
+  effects: {
+    titleLetterSpacing: "-0.03em",
+    titleTextTransform: "none",
+    cardBorder: "3px solid #000000",
+    cardBorderRadius: 6,
+    cardShadow: "6px 6px 0 #000000",
+    pillBorder: "2px solid #000000",
+    pillBorderRadius: 6,
+    pillShadow: "4px 4px 0 #000000",
+    imageBorderRadius: 6,
+    imageBorder: "3px solid #000000",
+    imageShadow: "6px 6px 0 #000000",
+  },
+  spacing: {
+    pagePadding: 80,
+    cardPadding: 40,
+    elementGap: 28,
+  },
+  layout: {
+    landscape: { width: 1920, height: 1080 },
+    portrait: { width: 1080, height: 1920 },
+  },
+  animation: {
+    defaultDuration: 15,
+    titleCardDuration: 90,
+    transitionDuration: 10,
+  },
+  fps: 30,
+};

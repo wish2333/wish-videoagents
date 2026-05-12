@@ -1,0 +1,30 @@
+{
+  "title": "This manga made me re-read it 3 times",
+  "workTitle": "Vagabond",
+  "workAuthor": "Takehiko Inoue",
+  "workGenre": ["Action", "Drama", "Historical"],
+  "hookText": "Not because of the fights, but because of the choices the characters make in critical moments",
+  "highlights": [
+    {
+      "title": "The Art",
+      "description": "Every panel looks like a painting. Inoue uses ink wash techniques that make fight scenes feel alive.",
+      "imageSrc": ""
+    },
+    {
+      "title": "The Growth",
+      "description": "Musashi starts as a killer and slowly learns what it means to be strong vs what it means to be invincible.",
+      "imageSrc": ""
+    },
+    {
+      "title": "The Philosophy",
+      "description": "It asks: after you become the strongest, then what? The answer is not what you expect.",
+      "imageSrc": ""
+    }
+  ],
+  "targetAudience": ["People who want more than just fighting", "Readers who appreciate art", "Anyone searching for meaning"],
+  "rating": 5,
+  "outroMessage": "Read it. You will not regret it.",
+  "channelName": "manga deep dives",
+  "audioSrc": "",
+  "totalDurationFrames": 450
+}

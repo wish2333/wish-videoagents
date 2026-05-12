@@ -1,0 +1,35 @@
+{
+  "name": "videoagent",
+  "version": "1.0.0",
+  "description": "Remotion video production workflow - reusable templates and resources",
+  "repository": {},
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@remotion/cli": "4.0.459",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.459",
+    "@remotion/tailwind-v4": "4.0.459",
+    "tailwindcss": "4.0.0"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config-flat": "4.0.459",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "eslint": "9.19.0",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3"
+  },
+  "scripts": {
+    "dev": "remotionb studio",
+    "build": "remotionb bundle",
+    "upgrade": "remotionb upgrade",
+    "lint": "eslint src && tsc",
+    "render:manga": "remotionb render MangaRecommend out/manga.mp4",
+    "render:manga-vertical": "remotionb render MangaRecommendVertical out/manga-vertical.mp4"
+  },
+  "sideEffects": [
+    "*.css"
+  ]
+}
