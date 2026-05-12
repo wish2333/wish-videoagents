@@ -27,7 +27,13 @@
     "upgrade": "remotionb upgrade",
     "lint": "eslint src && tsc",
     "render:manga": "remotionb render MangaRecommend out/manga.mp4",
-    "render:manga-vertical": "remotionb render MangaRecommendVertical out/manga-vertical.mp4"
+    "render:manga-vertical": "remotionb render MangaRecommendVertical out/manga-vertical.mp4",
+    "revideo:dev": "cd revideo && bun run dev",
+    "revideo:render:reading-history": "cd revideo && bun run render:reading-history",
+    "revideo:convert:data": "cd revideo && bun run convert:data",
+    "motion-canvas:dev": "cd motion-canvas && bun run dev",
+    "motion-canvas:build": "cd motion-canvas && bun run build",
+    "motion-canvas:convert:data": "cd motion-canvas && bun run convert:data"
   },
   "sideEffects": [
     "*.css"

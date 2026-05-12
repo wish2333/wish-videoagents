@@ -1,279 +1,287 @@
-# Hyperframes Integration & Migration Plan (v2)
+# Plan: Add Motion Canvas as Fourth Rendering Pipeline
 
-## Overview
+## Requirements Restatement
 
-Add hyperframes (HeyGen's HTML-native video framework) as a parallel rendering pipeline alongside the existing Remotion system, then migrate ReadingHistory and WhiteVoice (PlayerStyle) compositions from React/Remotion to HTML + GSAP.
+Add Motion Canvas (https://github.com/motion-canvas/motion-canvas) as a fourth rendering pipeline to the videoagent project:
+- **File isolation**: Complete isolation like `revideo/` and `hyperframes/` — own `package.json`, `node_modules`, build toolchain
+- **Composition**: Migrate ReadingHistory landscape (1920x1080, 45 slides) to Motion Canvas
+- **Data pipeline**: Conversion script from canonical `slides-data.ts` to Motion Canvas format
+- **Root proxy scripts**: `motion-canvas:dev`, `motion-canvas:render:reading-history`, `motion-canvas:convert:data`
 
-## Constraints
+## Architecture Analysis
 
-- Existing Remotion code (`src/`, `package.json`, all scripts) remains untouched
-- Hyperframes projects live in isolated `hyperframes/` directory
-- Node.js 22+ required (current: v22.21.0 - OK)
+### Motion Canvas vs Revideo — Key Similarities
+Both frameworks share nearly identical paradigms, making migration straightforward:
+
+| Aspect | Revideo | Motion Canvas |
+|--------|---------|---------------|
+| Scene creation | `makeScene2D(function* (view) {...})` | `makeScene2D(function* (view) {...})` |
+| Animation | `yield*` generator coroutines | `yield*` generator coroutines |
+| Flow control | `chain()`, `all()`, `sequence()`, `waitFor()` | `chain()`, `all()`, `sequence()`, `waitFor()` |
+| References | `createRef<T>()` | `createRef<T>()` |
+| JSX scene graph | Custom JSX factory (not React) | Custom JSX factory (not React) |
+| Components | `Rect`, `Circle`, `Txt`, `Layout`, `Line`, `Img` | `Rect`, `Circle`, `Txt`, `Layout`, `Line`, `Img`, `Path`, `Code`, `Latex` |
+| Build | Vite + custom plugin | Vite + custom plugin |
+| Scene import | `?scene` suffix | `?scene` suffix |
+| Project config | `makeProject({ scenes })` | `makeProject({ scenes })` |
+| Easing | `easeInOutCubic`, `easeOutQuad`, etc. | `easeInOutCubic`, `easeOutQuad`, etc. |
+| Signals | `createSignal()` | `createSignal()` |
+
+### Motion Canvas Advantages Over Revideo
+- **Mature rendering pipeline**: Built-in FFmpeg plugin for MP4 export (`@motion-canvas/ffmpeg`)
+- **Richer component set**: `Code`, `Latex`, `Path`, `Spline`, `Polygon`, `Ray`, `Video`
+- **Better editor**: Browser-based UI with timeline scrubbing, parameter adjustment, and live preview
+- **Player embedding**: `<animation-player>` custom element for web embedding
+- **Active ecosystem**: Larger community, more examples, better documentation
+- **Signal-driven reactivity**: Property tweens are first-class — `circle().fill('#red', 1)` directly
+
+### Rendering Pipeline
+Motion Canvas renders via browser + FFmpeg:
+1. Dev server runs `@motion-canvas/ui` editor in browser
+2. Editor renders animation on HTML Canvas in real-time
+3. Click "RENDER" to capture frames to `/output` directory
+4. `@motion-canvas/ffmpeg` plugin encodes frames to MP4 via Node.js FFmpeg bridge
+
+## Risks
+
+| Risk | Severity | Mitigation |
+|------|----------|------------|
+| FFmpeg plugin requires FFmpeg installed on system | HIGH | Check FFmpeg availability in setup; document installation |
+| Rendering is browser-based, not headless by default | MEDIUM | Can use Puppeteer to automate the editor for CI/CD |
+| Motion Canvas uses npm (not bun) | LOW | Use `bun install` which is npm-compatible |
+| Scene import `?scene` suffix may conflict with Vite config | LOW | Standard Motion Canvas pattern, well-documented |
+| 45 slides with complex layouts — scene file may get large | MEDIUM | Split into per-slide-type renderer functions (same pattern as Revideo) |
+
+## Implementation Phases
+
+### Phase 1: Project Scaffolding
+**Goal**: Create the `motion-canvas/` directory with working dev server
+
+1. Create `motion-canvas/` directory structure:
+   ```
+   motion-canvas/
+     package.json
+     vite.config.ts
+     tsconfig.json
+     src/
+       project.ts
+       scenes/
+         reading-history.tsx
+       lib/
+         fonts.ts
+         layout.ts
+         animation.ts
+         slide-renderers.ts
+       data/
+         reading-history.ts
+     scripts/
+       convert-slides-data.mjs
+     output/
+     public/
+   ```
+
+2. Create `package.json`:
+   - Dependencies: `@motion-canvas/2d`, `@motion-canvas/core`, `@motion-canvas/vite-plugin`, `@motion-canvas/ffmpeg`
+   - Dev dependencies: `typescript`, `vite`
+   - Scripts: `dev`, `render:reading-history`, `convert:data`
+
+3. Create `vite.config.ts`:
+   ```typescript
+   import {defineConfig} from 'vite';
+   import motionCanvas from '@motion-canvas/vite-plugin';
+   import ffmpeg from '@motion-canvas/ffmpeg';
+
+   export default defineConfig({
+     plugins: [motionCanvas(), ffmpeg()],
+   });
+   ```
+
+4. Create `tsconfig.json` — target ES2022, JSX preserve (handled by Vite plugin)
+
+5. Create `src/project.ts`:
+   ```typescript
+   import {makeProject} from '@motion-canvas/core';
+   import readingHistory from './scenes/reading-history?scene';
+
+   export default makeProject({
+     scenes: [readingHistory],
+   });
+   ```
+
+6. Install dependencies and verify dev server starts
+
+### Phase 2: Data Conversion Script
+**Goal**: Convert canonical `slides-data.ts` to Motion Canvas TypeScript format
+
+1. Create `scripts/convert-slides-data.mjs`:
+   - Read `src/compositions/reading-history/slides-data.ts`
+   - Extract slide data (same regex approach as Hyperframes/Revideo)
+   - Convert frame durations to seconds (`frames / 30`)
+   - Output TypeScript module to `src/data/reading-history.ts`
+   - Export typed data matching the slide type definitions
+
+2. Data format (same as Revideo):
+   ```typescript
+   export const readingHistoryData = {
+     title: "...",
+     subtitle: "...",
+     channelName: "...",
+     totalDurationSeconds: 774.9,
+     slides: [
+       { id: "...", type: "title", durationSeconds: 14.97, ... },
+       // ...
+     ],
+   };
+   ```
+
+3. Run conversion and verify output
+
+### Phase 3: Library Modules
+**Goal**: Create shared utility modules for the scene
+
+1. `src/lib/fonts.ts`:
+   - Same font stacks as Remotion/Revideo: `DISPLAY_FONT`, `BODY_FONT`, `QUOTE_FONT`
+   - Motion Canvas uses `fontFamily` prop on `Txt` components
+
+2. `src/lib/layout.ts`:
+   - Canvas dimensions: 1920x1080
+   - Color constants (background #1a1a2e, text #f0f0f0, accent #4a9eff, etc.)
+   - Spacing constants
+   - Card dimension presets (SINGLE, DUAL, MANY)
+
+3. `src/lib/animation.ts`:
+   - Fade duration constant: 0.267s (8 frames / 30fps)
+   - Text opacity duration: 0.67s
+   - Card spring duration: 0.6s with `back.out(1.4)` easing
+   - Card stagger interval: 0.2s
+   - Helper functions wrapping Motion Canvas's `all()`, `chain()`, `sequence()`, `waitFor()`
+
+4. `src/lib/slide-renderers.ts`:
+   - One function per slide type, each returns a generator that adds nodes to `view` and animates them
+   - Functions: `renderTitleCard`, `renderTimelineMarker`, `renderNarrativeSlide`, `renderQuoteSlide`, `renderWorksShowcase`, `renderOutro`
+   - Each function follows the pattern: add nodes → animate in → yield* duration → animate out → remove
+
+### Phase 4: Scene Implementation
+**Goal**: Create the ReadingHistory scene
+
+1. `src/scenes/reading-history.tsx`:
+   ```tsx
+   import {makeScene2D} from '@motion-canvas/2d';
+   import {readingHistoryData} from '../data/reading-history';
+   import {renderTitleCard, renderTimelineMarker, ...} from '../lib/slide-renderers';
+
+   const SLIDE_RENDERERS = {
+     'title': renderTitleCard,
+     'timeline-marker': renderTimelineMarker,
+     'narrative': renderNarrativeSlide,
+     'closing': renderNarrativeSlide,
+     'quote': renderQuoteSlide,
+     'works-grid': renderWorksShowcase,
+     'outro': renderOutro,
+   };
+
+   export default makeScene2D(function* (view) {
+     view.fill('#1a1a2e');
+
+     for (const slide of readingHistoryData.slides) {
+       const renderer = SLIDE_RENDERERS[slide.type];
+       yield* renderer(view, slide);
+     }
+   });
+   ```
+
+2. Implement each slide renderer using Motion Canvas components:
+   - **TitleCard**: `<Rect>` background + `<Txt>` title/subtitle, centered layout
+   - **TimelineMarker**: `<Txt>` year (large) + `<Rect>` line + `<Txt>` era label
+   - **NarrativeSlide**: `<Txt>` text + work cards (`<Rect>` + `<Img>` + `<Txt>`)
+   - **QuoteSlide**: Dark `<Rect>` bg + decorative `<Txt>` quote mark + content
+   - **WorksShowcase**: Grid of `<Rect>` cards with `<Img>` + `<Txt>`
+   - **Outro**: Centered `<Txt>` message + channel name
+
+3. Animation pattern per slide:
+   ```typescript
+   function* renderTitleCard(view: View2D, slide: TitleSlide) {
+     const bg = createRef<Rect>();
+     const title = createRef<Txt>();
+     view.add(
+       <Rect ref={bg} opacity={0} ...>
+         <Txt ref={title} text={slide.title} ... />
+       </Rect>
+     );
+     // Fade in
+     yield* all(
+       bg().opacity(1, 0.267),
+     );
+     // Hold
+     yield* waitFor(slide.durationSeconds - 0.534);
+     // Fade out
+     yield* bg().opacity(0, 0.267);
+     // Remove
+     bg().remove();
+   }
+   ```
+
+### Phase 5: Root Integration
+**Goal**: Add proxy scripts to root `package.json`
+
+1. Add to root `package.json` scripts:
+   ```json
+   "motion-canvas:dev": "cd motion-canvas && bun run dev",
+   "motion-canvas:render:reading-history": "cd motion-canvas && bun run render:reading-history",
+   "motion-canvas:convert:data": "cd motion-canvas && bun run convert:data"
+   ```
+
+2. Update `CLAUDE.md` with Motion Canvas pipeline documentation
+
+### Phase 6: Testing & Verification
+**Goal**: Verify the full pipeline works end-to-end
+
+1. Run `bun run motion-canvas:dev` — verify browser editor opens and scene renders
+2. Run `bun run motion-canvas:convert:data` — verify data conversion
+3. Run `bun run motion-canvas:render:reading-history` — verify MP4 output
+4. Compare output visually with Remotion/Hyperframes versions
+
+## File Inventory
+
+| File | Purpose | Lines (est.) |
+|------|---------|-------------|
+| `motion-canvas/package.json` | Dependencies & scripts | 30 |
+| `motion-canvas/vite.config.ts` | Vite + Motion Canvas plugin | 15 |
+| `motion-canvas/tsconfig.json` | TypeScript config | 20 |
+| `motion-canvas/src/project.ts` | Project entry point | 15 |
+| `motion-canvas/src/scenes/reading-history.tsx` | Main scene | 80 |
+| `motion-canvas/src/lib/fonts.ts` | Font stacks | 20 |
+| `motion-canvas/src/lib/layout.ts` | Dimensions, colors, spacing | 60 |
+| `motion-canvas/src/lib/animation.ts` | Animation helpers | 40 |
+| `motion-canvas/src/lib/slide-renderers.ts` | Per-slide-type renderers | 400 |
+| `motion-canvas/src/data/reading-history.ts` | Auto-generated data | 500+ |
+| `motion-canvas/scripts/convert-slides-data.mjs` | Data conversion | 80 |
+| `package.json` (root) | Add proxy scripts | +3 lines |
+| `CLAUDE.md` | Documentation update | +40 lines |
+
+**Total new code**: ~1,260 lines across 13 files
+
+## Complexity Assessment
+
+**Overall: MEDIUM**
+
+- The generator-based animation model is nearly identical to Revideo — the Revideo scene code can be adapted with minimal changes
+- The main work is translating component APIs (Revideo `Rect` → Motion Canvas `Rect`, etc.) which are very similar
+- The data pipeline and conversion script follow the same pattern as Hyperframes/Revideo
+- The biggest risk is the FFmpeg rendering pipeline — need to verify FFmpeg is available on the system
+
+## Estimated Effort
+
+| Phase | Time |
+|-------|------|
+| Phase 1: Scaffolding | 15 min |
+| Phase 2: Data conversion | 15 min |
+| Phase 3: Library modules | 30 min |
+| Phase 4: Scene implementation | 60 min |
+| Phase 5: Root integration | 10 min |
+| Phase 6: Testing | 30 min |
+| **Total** | **~2.5 hours** |
 
 ---
 
-## Target Directory Structure
-
-```
-videoagent/
-  src/                            # Remotion - unchanged
-  public/                         # Remotion assets - unchanged
-  package.json                    # Remotion deps - unchanged
-  hyperframes/
-    package.json                  # Separate deps: gsap, @hyperframes/*
-    scripts/
-      convert-slides-data.mjs     # Auto-convert slides-data.ts -> data.js
-      convert-sample-data.mjs     # Auto-convert sample-data.ts -> data.js
-      screenshot-compare.mjs      # Frame-by-frame visual regression
-    reading-history/
-      meta.json                   # 1920x1080, 30fps, 23247 frames
-      index.html                  # Master composition HTML + GSAP timeline
-      data.js                     # Generated by convert script
-      components/
-        title-card.js
-        timeline-marker.js
-        narrative-slide.js
-        quote-slide.js
-        works-showcase.js
-        outro.js
-        fade-transition.js
-        progress-bar.js
-    white-voice/
-      meta.json                   # 1920x1080, 30fps, 6120 frames
-      index.html
-      data.js                     # Generated by convert script
-      components/
-        vinyl-disc.js
-        lyrics-panel.js
-        player-controls.js
-      assets/
-        white-noise.wav           # Symlink or copy from public/
-        white-noise-cover.jpg
-```
-
----
-
-## Phase 1: Scaffolding & Toolchain Validation (1-2h)
-
-### Step 1: Create hyperframes/package.json
-- Dependencies: `gsap`, `@hyperframes/cli`
-- Scripts: `preview`, `render:white-voice`, `render:reading-history`, `test:visual`
-- **Fallback**: if `bun install` fails with @hyperframes packages, use `npm install`
-
-### Step 2: Verify hyperframes CLI on Windows
-- Run `npx hyperframes --help`
-- Create a minimal test composition (simple colored box, 30 frames) and render it
-- Confirm Chrome/Puppeteer works, FFmpeg available
-- **Gate**: If CLI fails on Windows, stop and evaluate before continuing
-
-### Step 3: Create data conversion scripts
-- `scripts/convert-slides-data.mjs` - Parse TS, extract `readingHistorySlides` array, output `data.js` as `window.__readingHistorySlides = [...]`
-- `scripts/convert-sample-data.mjs` - Parse TS, extract `samplePlayerData`, output `data.js` as `window.__whiteVoiceData = {...}`
-- These scripts ensure data stays in sync with Remotion source if it changes
-- Run both scripts, verify output
-
-### Step 4: Create visual regression test script
-- `scripts/screenshot-compare.mjs` - Renders key frames from both Remotion and hyperframes, compares screenshots
-- Uses pixelmatch or similar for diff detection
-- Generates HTML diff report
-- Not a blocker for Phase 2/3, but ready for use in Phase 4
-
----
-
-## Phase 2: WhiteVoice Migration (6-10h)
-
-Do WhiteVoice first - smaller scope (~3.5 min), tests the full pipeline, exercises audio + image + time-based animation.
-
-### Step 5: Copy assets & create meta
-- Copy `public/white-noise.wav` and `public/white-noise-cover.jpg` to `hyperframes/white-voice/assets/`
-- Create `meta.json` with dimensions, fps, duration
-
-### Step 6: Create VinylDisc component (Low Risk)
-- CSS `repeating-radial-gradient` for grooves
-- GSAP: `gsap.to(vinyl, { rotation: 360, duration: 8, repeat: -1, ease: "none" })`
-- Circular cover image rotates with vinyl; square cover stays static
-- **Verify**: preview in browser, check rotation speed matches Remotion
-
-### Step 7: Create LyricsPanel - Line-Level Only (Medium Risk)
-- Build GSAP master timeline with labels at each `lyrics[i].start`
-- Scroll: `"back.out(1.2)"` ease on `translateY` at each line transition
-- Line styling: tween fontSize (26->34), fontWeight (400->700), opacity at each line's start time
-- Past lines: fade out by distance. Future lines: dim.
-- **Deliberately skip word-level highlight** in this step
-- **Verify**: preview, check scroll timing against audio, check line transitions
-
-### Step 8: Create LyricsPanel - Word-Level Highlight (High Risk)
-- Add per-word `width` tween for clip-reveal effect (only for lines with `words` array)
-- Note: current sample data has no `words` array, so this must be tested with manually crafted test data (2-3 lines with word timing)
-- Create `test-data.js` with word-level lyrics for validation
-- **Verify**: seek timeline to word-highlight regions, check clip-reveal animation
-
-### Step 9: Create PlayerControls component (Low Risk)
-- Static HTML (CSS shapes for prev/play/next buttons)
-- Linear GSAP tween for progress bar width 0% -> 100%
-- Time display updates via GSAP `onUpdate` callback
-
-### Step 10: Assemble WhiteVoice index.html
-- Gradient background + dot grid overlay
-- Flex layout: vinyl-disc (left) + right panel (title, artist, divider, lyrics, controls)
-- `<audio>` with `data-start`, `data-duration`, `data-track-index`
-- Register timeline on `window.__timelines["WhiteVoice"]`
-
-### Step 11: Preview + Render + Visual Check
-- `npx hyperframes preview` - verify in browser, check audio sync
-- `npx hyperframes render WhiteVoice out/white-voice-hf.mp4`
-- Extract frames at 10s intervals, compare with Remotion PlayerStyle output
-- **Gate**: Only proceed to Phase 3 if WhiteVoice renders correctly
-
----
-
-## Phase 3: ReadingHistory Migration (18-24h)
-
-45+ slides, 13-minute video, 6 heterogeneous slide types. Build and verify each component incrementally.
-
-### Step 12: Run data conversion script
-- `node scripts/convert-slides-data.mjs > reading-history/data.js`
-- Verify all 45+ slides converted correctly (check slide count, frame totals)
-
-### Step 13: Create shared utilities
-- `fade-transition.js` - wraps a slide element with fade-in/fade-out using GSAP `autoAlpha`
-  - 8-frame fade-in, 8-frame fade-out (matching Remotion's FadeTransition)
-- `progress-bar.js` - 2px blue bar, linear width tween over 774.9s
-
-### Step 14: Create title-card component (Low Risk)
-- Two opacity tweens: title (0->1 over 30 frames = 1.0s), subtitle (delay 0.67s, 0.83s duration)
-- **Verify**: preview in isolation, check animation timing
-
-### Step 15: Create outro component (Low Risk)
-- Two opacity tweens: message (delay 0.33s), channelName (delay 0.83s)
-- **Verify**: preview in isolation
-
-### Step 16: Create timeline-marker component (Low Risk)
-- Three staggered tweens: year opacity (delay 0.17s), line width (delay 0.33s), label opacity (delay 0.67s)
-- **Verify**: preview in isolation
-
-### Step 17: Create quote-slide component (Medium Risk)
-- Spring scale for content: GSAP `"back.out(1.2)"` approximating Remotion damping:16/stiffness:80
-- Attribution fade at frames 25-45
-- Dark background with decorative quote mark
-- **Verify**: preview, compare spring feel with Remotion output
-
-### Step 18: Create narrative-slide component (HIGH RISK - most complex)
-- Text fade-in + year scale spring
-- WorkCard sub-component with staggered spring animations
-- Conditional layout: 0/1/2/3+ works
-  - 0 works: text-only centered
-  - 1-2 works: side-by-side flex
-  - 3+ works: centered column with smaller cards
-- Card rendering: image cards (gradient overlay) vs placeholder cards (title/author/genre)
-- GSAP stagger with `"back.out(1.4)"` for per-card spring
-- **Verify**: test each layout variant (0, 1, 2, 3+ works) separately in browser
-- **Debug mode**: add URL parameter `?slide=N` to jump directly to slide N
-
-### Step 19: Create works-showcase component (Medium Risk)
-- CSS Grid layout with centering for odd counts
-- Staggered spring per card (base delay 10 frames, gap 6 frames)
-- Title opacity via simple duration tween
-- **Verify**: test with 2, 3, 4, 5, 6 cards
-
-### Step 20: Assemble ReadingHistory index.html (HIGH RISK)
-- Build master composition HTML:
-  1. Load data.js + GSAP
-  2. Iterate all slides, generate HTML per slide type using component functions
-  3. Each slide wrapped in absolute-positioned container with fade-transition
-  4. Build single GSAP timeline with labels at each slide's cumulative time offset
-  5. Register on `window.__timelines["ReadingHistory"]`
-- Slide visibility: `autoAlpha: 0` by default, tweened to 1 during active window, back to 0 after
-- **Debug mode**: `?slide=15` to seek timeline to slide 15's start time on load
-- **Incremental build**: assemble 5 slides first, verify, then add batches of 10
-
-### Step 21: Preview + Render + Visual Check
-- `npx hyperframes preview` - spot-check key slides (first, middle, last of each section)
-- `npx hyperframes render ReadingHistory out/reading-history-hf.mp4`
-- Extract frames every 30s, compare with Remotion output
-- Check total duration matches (23247 frames = 774.9s)
-
----
-
-## Phase 4: Polish & Documentation (3-4h)
-
-### Step 22: Add portrait variant for ReadingHistory
-- Create `reading-history-vertical/` with swapped dimensions (1080x1920)
-- Reuse component JS functions with orientation parameter
-- Adjust all portrait-specific values (font sizes, padding, card dimensions)
-
-### Step 23: Run full visual regression
-- Use `scripts/screenshot-compare.mjs` to compare both compositions
-- Generate diff report, flag frames with >5% pixel difference
-- Manual review of flagged frames
-
-### Step 24: Add npm scripts & documentation
-- `hyperframes/package.json` scripts:
-  - `preview` - launch hyperframes preview
-  - `render:white-voice` / `render:reading-history`
-  - `convert:data` - run both data conversion scripts
-  - `test:visual` - run screenshot comparison
-- Add `docs/MIGRATION-hyperframes.md` documenting:
-  - Project structure
-  - How to preview/render
-  - Known differences from Remotion output
-  - Data conversion workflow
-  - How to add new compositions
-
----
-
-## Migration Patterns: Remotion -> GSAP
-
-### interpolate -> GSAP tween
-```
-Remotion: opacity = interpolate(frame, [0, 30], [0, 1], { clamp })
-GSAP:     tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 1.0 }, startTime)
-```
-
-### spring -> GSAP back/elastic ease
-```
-Remotion: scale = spring({ frame, fps, config: { damping: 15, stiffness: 100 } })
-GSAP:     tl.fromTo(el, { scale: 0 }, { scale: 1, duration: 0.6, ease: "back.out(1.4)" }, startTime)
-```
-
-### Sequence -> GSAP timeline labels + autoAlpha
-```
-Remotion: <Sequence from={offset} durationInFrames={dur}>
-GSAP:     tl.set(el, { autoAlpha: 0 }, offset/fps)
-          tl.to(el, { autoAlpha: 1, duration: fadeIn/fps }, offset/fps)
-          tl.to(el, { autoAlpha: 0, duration: fadeOut/fps }, (offset+dur-fadeOut)/fps)
-```
-
----
-
-## Risks (Updated)
-
-| Risk | Severity | Mitigation | Gate |
-|------|----------|------------|------|
-| hyperframes CLI Windows compat | HIGH | Test in Step 2 with minimal composition | Stop if fails |
-| LyricsPanel word highlight | HIGH | Split into line-level (Step 7) + word-level (Step 8) | Can ship line-level only |
-| 45-slide ReadingHistory timeline | MEDIUM | Incremental assembly (5 slides -> 15 -> all 45) | Debug mode for quick jump |
-| GSAP spring vs Remotion spring | MEDIUM | Visual verification per component | Accept visual match, not pixel-perfect |
-| bun + @hyperframes compat | MEDIUM | Fallback to npm install | N/A |
-| ReadingHistory portrait variant | LOW | Reuse landscape components with orientation param | N/A |
-
----
-
-## Estimated Effort (Revised)
-
-| Phase | Steps | Effort | Buffer |
-|-------|-------|--------|--------|
-| Phase 1: Scaffolding | 4 | 2-3h | +1h for Windows CLI debugging |
-| Phase 2: WhiteVoice | 7 | 6-10h | Line-level 4-6h, word-level 2-4h |
-| Phase 3: ReadingHistory | 10 | 18-24h | NarrativeSlide alone 6-8h |
-| Phase 4: Polish | 3 | 3-4h | Portrait variant 2-3h |
-| **Total** | **24** | **29-41h** | |
-
----
-
-## Quality Gates
-
-- **Phase 1 exit**: hyperframes CLI renders a test composition on Windows
-- **Phase 2 exit**: WhiteVoice renders to MP4 with audio sync and line-level lyrics scroll
-- **Phase 3 exit**: ReadingHistory renders full 13-minute video, all 6 slide types functional
-- **Phase 4 exit**: Visual regression report shows <5% pixel diff on 90%+ of sampled frames
+**WAITING FOR CONFIRMATION**: Proceed with this plan? (yes/no/modify)
