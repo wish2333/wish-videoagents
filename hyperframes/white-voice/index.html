@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: #000;
+    }
+  </style>
+</head>
+<body>
+
+<div id="root"
+     data-composition-id="WhiteVoice"
+     data-start="0"
+     data-duration="204"
+     data-width="1920"
+     data-height="1080"
+     style="position:relative; width:1920px; height:1080px;
+            background: radial-gradient(circle at 22% 42%, rgba(255,255,255,0.15), transparent 32%),
+                        linear-gradient(145deg, #3a5f7a, #8eaab8);
+            font-family: 'OPPO Sans 4.0', 'Dream Han Sans HC', 'LXGW WenKai', 'Noto Sans CJK Regular', 'Source Sans Pro', sans-serif;
+            color: white; overflow: hidden;">
+
+  <!-- Audio track -->
+  <audio id="bg-audio"
+         class="clip"
+         data-start="0"
+         data-duration="204"
+         data-track-index="0"
+         data-volume="1"
+         src="assets/white-noise.wav"
+         style="display:none;"></audio>
+
+  <!-- Dot grid overlay -->
+  <div style="position:absolute; inset:0; opacity:0.15;
+              background-image: radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1px);
+              background-size: 3px 3px; mix-blend-mode: overlay;"></div>
+
+  <!-- Main layout -->
+  <div style="height:100%; display:flex; align-items:center; justify-content:center;
+              padding:0 80px; gap:120px;">
+
+    <!-- Left: Vinyl Disc -->
+    <div id="vinyl-container" style="position:relative; width:660px; height:440px; flex-shrink:0;">
+
+      <!-- Vinyl record disc -->
+      <div id="vinyl-disc" style="position:absolute; width:440px; height:440px; border-radius:50%;
+                left:220px; top:0;
+                background: repeating-radial-gradient(circle, #050505 0 8px, #151515 9px 12px, #070707 13px 18px);
+                box-shadow: 0 36px 80px rgba(0,0,0,0.5);">
+
+        <!-- Cover image in vinyl center (background-image to avoid duplicate media discovery) -->
+        <div style="position:absolute; width:110px; height:110px; border-radius:50%;
+                    background:url('assets/white-noise-cover.jpg') center/cover;
+                    left:50%; top:50%; transform:translate(-50%,-50%);"></div>
+
+        <!-- Center spindle hole -->
+        <div style="position:absolute; width:28px; height:28px; border-radius:50%;
+                    background:#0a0a0a; left:50%; top:50%; transform:translate(-50%,-50%);"></div>
+      </div>
+
+      <!-- Square cover image (in front, static) -->
+      <img src="assets/white-noise-cover.jpg"
+           style="position:absolute; width:440px; height:440px; object-fit:cover;
+                  box-shadow: 0 32px 70px rgba(0,0,0,0.45);" />
+    </div>
+
+    <!-- Right: Player panel -->
+    <div style="width:620px;">
+
+      <!-- Song title -->
+      <div id="song-title"
+           style="font-size:68px; font-weight:700; letter-spacing:6px;
+                  font-family: 'OPPO Sans 4.0', 'Dream Han Sans HC', 'LXGW WenKai', 'Noto Sans CJK Regular', 'Source Sans Pro', sans-serif;
+                  margin-bottom:18px;">
+        白色声音
+      </div>
+
+      <!-- Artist -->
+      <div style="font-size:26px; opacity:0.88; margin-bottom:46px;
+                  font-family: 'OPPO Sans 4.0', 'Dream Han Sans HC', 'SF Pro Text', 'Inter', 'Noto Sans SC', sans-serif;">
+        Wish Cover
+      </div>
+
+      <!-- Divider -->
+      <div style="width:34px; height:2px; background:rgba(255,255,255,0.8); margin-bottom:30px;"></div>
+
+      <!-- Lyrics panel -->
+      <div id="lyrics-panel" style="height:270px; overflow:hidden; position:relative;">
+        <div id="lyrics-scroll" style="position:absolute; width:100%;">
+          <!-- Lyrics lines injected by JS -->
+        </div>
+      </div>
+
+      <!-- Player controls -->
+      <div style="margin-top:42px;">
+        <!-- Time display -->
+        <div style="display:flex; justify-content:space-between; font-size:22px; opacity:0.85; margin-bottom:10px;
+                    font-family: 'OPPO Sans 4.0', 'Dream Han Sans HC', 'SF Pro Text', 'Inter', 'Noto Sans SC', sans-serif;">
+          <span id="time-current">0:00</span>
+          <span id="time-duration">3:24</span>
+        </div>
+
+        <!-- Progress bar -->
+        <div style="height:4px; background:rgba(255,255,255,0.35); position:relative; border-radius:2px;">
+          <div id="progress-fill" style="height:100%; width:0%; background:white; border-radius:2px;"></div>
+          <div id="progress-thumb" style="position:absolute; left:0%; top:50%; width:14px; height:14px;
+              border-radius:50%; background:white; transform:translate(-50%,-50%);
+              box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
+        </div>
+
+        <!-- Control buttons -->
+        <div style="margin-top:38px; display:flex; justify-content:center; align-items:center; gap:44px;">
+          <!-- Previous (double left triangle) -->
+          <div style="display:flex; align-items:center;">
+            <div style="width:0; height:0; border-top:10px solid transparent; border-bottom:10px solid transparent;
+                        border-right:16px solid rgba(255,255,255,0.75);"></div>
+            <div style="width:0; height:0; border-top:10px solid transparent; border-bottom:10px solid transparent;
+                        border-right:16px solid rgba(255,255,255,0.75); margin-left:-36px;"></div>
+          </div>
+
+          <!-- Play/Pause circle -->
+          <div style="width:96px; height:96px; border-radius:50%; border:2px solid rgba(255,255,255,0.6);
+                      display:flex; align-items:center; justify-content:center;">
+            <div style="display:flex; gap:8px;">
+              <div style="width:6px; height:28px; background:rgba(255,255,255,0.9); border-radius:2px;"></div>
+              <div style="width:6px; height:28px; background:rgba(255,255,255,0.9); border-radius:2px;"></div>
+            </div>
+          </div>
+
+          <!-- Next (double right triangle) -->
+          <div style="display:flex; align-items:center;">
+            <div style="width:0; height:0; border-top:10px solid transparent; border-bottom:10px solid transparent;
+                        border-left:16px solid rgba(255,255,255,0.75);"></div>
+            <div style="width:0; height:0; border-top:10px solid transparent; border-bottom:10px solid transparent;
+                        border-left:16px solid rgba(255,255,255,0.75); margin-left:-36px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function() {
+  const data = window.__whiteVoiceData;
+  const lyrics = data.lyrics;
+  const LINE_HEIGHT = 54;
+  const VISIBLE_COUNT = 5;
+  const PAST_LINES_ABOVE = 1.5;
+  const LYRICS_FONT = "'OPPO Sans 4.0', 'Dream Han Sans HC', 'PingFang SC', 'Microsoft YaHei', sans-serif";
+
+  // Build lyrics lines
+  const scrollContainer = document.getElementById("lyrics-scroll");
+  const lineEls = [];
+
+  lyrics.forEach(function(line, idx) {
+    const el = document.createElement("div");
+    el.style.cssText = "min-height:" + LINE_HEIGHT + "px; display:flex; align-items:center; opacity:0.2; " +
+      "transform:scale(0.94); transform-origin:left center; font-family:" + LYRICS_FONT + "; " +
+      "font-size:26px; font-weight:400; color:rgba(255,255,255,0.55); letter-spacing:1px; " +
+      "white-space:normal; line-height:" + LINE_HEIGHT + "px; padding:4px 0;";
+    el.textContent = line.text;
+    scrollContainer.appendChild(el);
+    lineEls.push(el);
+  });
+
+  // Measure actual line heights after DOM render
+  const lineHeights = lineEls.map(function(el) { return el.offsetHeight; });
+  const lineOffsets = [0];
+  for (var i = 1; i < lineHeights.length; i++) {
+    lineOffsets.push(lineOffsets[i - 1] + lineHeights[i - 1]);
+  }
+
+  // Build GSAP timeline
+  const tl = gsap.timeline({ paused: true });
+
+  // Vinyl rotation - finite repeat for deterministic capture (204s / 8s per cycle)
+  var vinylRepeats = Math.floor(data.duration / 8) - 1;
+  tl.to("#vinyl-disc", { rotation: 360, duration: 8, ease: "none", repeat: vinylRepeats }, 0);
+
+  // Progress bar + time - linear from 0 to full over entire duration
+  tl.to("#progress-fill", { width: "100%", duration: data.duration, ease: "none" }, 0);
+  tl.to("#progress-thumb", { left: "100%", duration: data.duration, ease: "none" }, 0);
+
+  // Update time display via onUpdate
+  tl.to({}, {
+    duration: data.duration,
+    ease: "none",
+    onUpdate: function() {
+      var t = this.time();
+      var m = Math.floor(t / 60);
+      var s = Math.floor(t % 60);
+      document.getElementById("time-current").textContent = m + ":" + String(s).padStart(2, "0");
+    }
+  }, 0);
+
+  // Lyrics animations - for each line, add tweens at the line's start time
+  var padding = PAST_LINES_ABOVE * LINE_HEIGHT;
+
+  lyrics.forEach(function(line, idx) {
+    var lineEl = lineEls[idx];
+
+    // Activate: current line becomes bright and prominent
+    tl.to(lineEl, {
+      fontSize: 34,
+      fontWeight: 700,
+      color: "rgba(255,255,255,0.95)",
+      opacity: 1,
+      scale: 1,
+      duration: 0.15,
+    }, line.start);
+
+    // Scroll to this line with spring-like ease
+    tl.to("#lyrics-scroll", {
+      y: -(lineOffsets[idx] - padding),
+      duration: 0.5,
+      ease: "back.out(1.2)",
+    }, line.start);
+
+    // Deactivate: fade to past state (lighter/more faded) when next line starts
+    var deactivateTime = (idx < lyrics.length - 1) ? lyrics[idx + 1].start : line.end;
+    if (deactivateTime > line.start) {
+      tl.to(lineEl, {
+        color: "rgba(255,255,255,0.35)",
+        opacity: 0.35,
+        scale: 0.92,
+        fontSize: 26,
+        fontWeight: 400,
+        duration: 0.15,
+      }, deactivateTime);
+      // Hard kill to prevent exit animation conflicts
+      tl.set(lineEl, {
+        opacity: 0.35,
+        visibility: "visible",
+      }, deactivateTime + 0.15);
+    }
+  });
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["WhiteVoice"] = tl;
+})();
+</script>
+
+</body>
+</html>

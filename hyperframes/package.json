@@ -1,0 +1,22 @@
+{
+  "name": "videoagent-hyperframes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Hyperframes video production pipeline for ReadingHistory and WhiteVoice",
+  "scripts": {
+    "preview:white-voice": "npx hyperframes preview white-voice",
+    "preview:reading-history": "npx hyperframes preview reading-history",
+    "preview:reading-history-vertical": "npx hyperframes preview reading-history-vertical",
+    "render:white-voice": "npx hyperframes render white-voice --output out/white-voice-hf.mp4",
+    "render:reading-history": "npx hyperframes render reading-history --output out/reading-history-hf.mp4",
+    "render:reading-history-vertical": "npx hyperframes render reading-history-vertical --output out/reading-history-vertical-hf.mp4",
+    "render:all": "bun run render:white-voice && bun run render:reading-history && bun run render:reading-history-vertical",
+    "convert:data": "node scripts/convert-slides-data.mjs && node scripts/convert-sample-data.mjs",
+    "lint": "npx hyperframes lint white-voice && npx hyperframes lint reading-history && npx hyperframes lint reading-history-vertical",
+    "test:visual": "node scripts/screenshot-compare.mjs"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "hyperframes": "^0.5.7"
+  }
+}

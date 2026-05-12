@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .slide-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      visibility: hidden;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div id="root"
+     data-composition-id="ReadingHistory-vertical"
+     data-start="0"
+     data-duration="774.9"
+     data-width="1080"
+     data-height="1920"
+     style="position:relative; width:1080px; height:1920px; background:#ffffff; overflow:hidden;">
+
+  <!-- Progress bar -->
+  <div id="progress-bar" style="position:absolute; top:0; left:0; height:2px; width:0; background:#0066cc; z-index:100;"></div>
+
+  <!-- Slides container (populated by JS) -->
+  <div id="slides-root"></div>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function() {
+  var FPS = 30;
+  var FADE_FRAMES = 8;
+  var slides = window.__readingHistorySlides;
+  var totalFrames = window.__readingHistoryTotalFrames;
+
+  var DISPLAY_FONT = "'OPPO Sans 4.0', 'Dream Han Sans HC', 'LXGW WenKai', 'Noto Sans CJK Regular', 'Source Sans Pro', sans-serif";
+  var BODY_FONT = "'OPPO Sans 4.0', 'Dream Han Sans HC', 'LXGW WenKai', 'Noto Sans CJK Regular', 'IBM Plex Serif', sans-serif";
+  var QUOTE_FONT = "'Hina Mincho', 'LXGW WenKai', 'Noto Serif CJK SC', 'IBM Plex Serif', serif";
+
+  // Card dimensions (portrait)
+  var SINGLE_W = 440, SINGLE_H = 580;
+  var DUAL_W = 400, DUAL_H = 520;
+  var MANY_W = 400, MANY_H = 300;
+
+  var root = document.getElementById("slides-root");
+  var tl = gsap.timeline({ paused: true });
+
+  // Progress bar - linear over full duration
+  var totalDurationSec = totalFrames / FPS;
+  tl.to("#progress-bar", { width: "100%", duration: totalDurationSec, ease: "none" }, 0);
+
+  // --- Component builders ---
+
+  function createWorkCardHTML(work, w, h) {
+    if (work.imageSrc) {
+      return '<div style="position:relative; width:' + w + 'px; height:' + h + 'px; border-radius:18px; overflow:hidden; box-shadow:rgba(0,0,0,0.22) 3px 5px 30px;">' +
+        '<img src="' + work.imageSrc + '" alt="' + work.title + '" style="width:' + w + 'px; height:' + h + 'px; object-fit:cover;" />' +
+        '<div style="position:absolute; bottom:0; left:0; right:0; padding:14px 18px; background:linear-gradient(transparent, rgba(0,0,0,0.7)); display:flex; flex-direction:column; gap:2px;">' +
+        '<div style="color:#fff; font-size:17px; font-weight:600; letter-spacing:-0.374px; line-height:1.24;">' + work.title + '</div>' +
+        (work.author ? '<div style="color:rgba(255,255,255,0.7); font-size:13px; font-weight:400;">' + work.author + '</div>' : '') +
+        '</div></div>';
+    }
+    return '<div style="width:' + w + 'px; height:' + h + 'px; background:#fafafc; border-radius:18px; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:6px; padding:20px; box-shadow:rgba(0,0,0,0.22) 3px 5px 30px;">' +
+      '<div style="color:#1d1d1f; font-size:19px; font-weight:600; letter-spacing:-0.374px; text-align:center; line-height:1.24;">' + work.title + '</div>' +
+      (work.author ? '<div style="color:#7a7a7a; font-size:14px; font-weight:400;">' + work.author + '</div>' : '') +
+      '<span style="background:#f0f0f2; color:#0066cc; padding:3px 12px; border-radius:9999px; font-size:12px; font-weight:400; letter-spacing:-0.12px; line-height:1.0; margin-top:2px;">' + work.mediaType + '</span>' +
+      '</div>';
+  }
+
+  function buildTitleCard(slide) {
+    var el = document.createElement("div");
+    el.className = "slide-container";
+    el.style.cssText = "background:#ffffff; justify-content:center; align-items:center; font-family:" + DISPLAY_FONT + "; padding:100px 50px;";
+    el.innerHTML =
+      '<div id="tc-title-' + slide.id + '" style="color:#1d1d1f; font-size:78px; font-weight:600; letter-spacing:2px; line-height:1.07; text-align:center; white-space:pre-wrap; opacity:0;">' + slide.title + '</div>' +
+      (slide.subtitle ? '<div id="tc-sub-' + slide.id + '" style="color:#7a7a7a; font-size:30px; font-weight:400; letter-spacing:1.5px; line-height:1.14; margin-top:28px; text-align:center; padding:0 20px; opacity:0;">' + slide.subtitle + '</div>' : '');
+    return el;
+  }
+
+  function buildTimelineMarker(slide) {
+    var el = document.createElement("div");
+    el.className = "slide-container";
+    el.style.cssText = "background:#ffffff; justify-content:center; align-items:center; font-family:" + DISPLAY_FONT + ";";
+    el.innerHTML =
+      '<div id="tm-year-' + slide.id + '" style="color:#1d1d1f; font-size:140px; font-weight:600; letter-spacing:-2px; line-height:1.07; opacity:0;">' + slide.year + '</div>' +
+      '<div id="tm-line-' + slide.id + '" style="width:0; height:2px; background:rgba(0,0,0,0.1); margin-top:24px;"></div>' +
+      (slide.eraLabel ? '<div id="tm-label-' + slide.id + '" style="color:#7a7a7a; font-size:28px; font-weight:400; margin-top:18px; letter-spacing:0.196px; line-height:1.14; opacity:0;">' + slide.eraLabel + '</div>' : '');
+    return el;
+  }
+
+  function buildNarrativeSlide(slide) {
+    var isClosing = slide.type === "closing";
+    var workCount = slide.works ? slide.works.length : 0;
+    var hasWorks = workCount > 0;
+    var textColor = isClosing ? "#333333" : "#1d1d1f";
+    var fontSize = isClosing ? 42 : 44;
+    var bgColor = isClosing ? "#f5f5f7" : "#ffffff";
+
+    var html = '';
+    if (slide.year) {
+      html += '<div id="ns-year-' + slide.id + '" style="position:absolute; top:30px; right:30px; color:#0066cc; font-size:14px; font-weight:600; letter-spacing:0.5px; line-height:1.24; transform:scale(0);">' + slide.year + '</div>';
+    }
+
+    // Text + Work cards (portrait: always column layout)
+    if (!hasWorks) {
+      html += '<div id="ns-text-' + slide.id + '" style="color:' + textColor + '; font-size:' + fontSize + 'px; font-weight:400; line-height:1.47; letter-spacing:1px; text-align:center; white-space:pre-wrap; opacity:0; max-width:950px;">' + slide.text + '</div>';
+    } else {
+      html += '<div style="display:flex; flex-direction:column; align-items:center; gap:40px; width:100%; max-width:980px;">';
+      html += '<div id="ns-text-' + slide.id + '" style="color:' + textColor + '; font-size:' + fontSize + 'px; font-weight:400; line-height:1.47; letter-spacing:1px; text-align:center; white-space:pre-wrap; opacity:0; max-width:950px;">' + slide.text + '</div>';
+      html += '<div style="display:grid; grid-template-columns:' + (workCount === 1 ? '1fr' : 'repeat(2, auto)') + '; justify-content:center; gap:24px;">';
+      for (var i = 0; i < Math.min(workCount, 6); i++) {
+        var w = workCount === 1 ? SINGLE_W : (workCount === 2 ? DUAL_W : MANY_W);
+        var h = workCount === 1 ? SINGLE_H : (workCount === 2 ? DUAL_H : MANY_H);
+        var isLastOdd = i === Math.min(workCount, 6) - 1 && Math.min(workCount, 6) % 2 === 1;
+        html += '<div id="ns-card-' + slide.id + '-' + i + '" style="transform:scale(0);' + (isLastOdd ? ' grid-column:1 / -1; justify-self:center;' : '') + '">' + createWorkCardHTML(slide.works[i], w, h) + '</div>';
+      }
+      html += '</div></div>';
+    }
+
+    var el = document.createElement("div");
+    el.className = "slide-container";
+    el.style.cssText = "background:" + bgColor + "; justify-content:center; align-items:center; font-family:" + BODY_FONT + "; padding:80px 40px;";
+    el.innerHTML = html;
+    return el;
+  }
+
+  function buildQuoteSlide(slide) {
+    var el = document.createElement("div");
+    el.className = "slide-container";
+    el.style.cssText = "background:#272729; justify-content:center; align-items:center; font-family:" + BODY_FONT + "; padding:100px 45px;";
+    el.innerHTML =
+      '<div style="position:absolute; top:6%; left:6%; font-size:120px; color:#2997ff; opacity:0.12; font-family:' + QUOTE_FONT + '; line-height:1;">“</div>' +
+      '<div id="qs-content-' + slide.id + '" style="color:#ffffff; font-size:50px; font-weight:600; letter-spacing:2px; line-height:1.1; max-width:900px; text-align:center; transform:scale(0);">' + slide.text + '</div>' +
+      (slide.attribution ? '<div id="qs-attr-' + slide.id + '" style="color:#cccccc; font-size:22px; font-weight:600; margin-top:24px; letter-spacing:0.231px; line-height:1.19; opacity:0;">—— ' + slide.attribution + '</div>' : '');
+    return el;
+  }
+
+  function buildWorksShowcase(slide) {
+    var works = slide.works || [];
+    var visible = works.slice(0, 6);
+    var cw = 400, ch = 300;
+    var html = '';
+    if (slide.title) {
+      html += '<div id="ws-title-' + slide.id + '" style="color:#7a7a7a; font-size:21px; font-weight:600; margin-bottom:32px; letter-spacing:0.231px; line-height:1.19; opacity:0;">' + slide.title + '</div>';
+    }
+    html += '<div style="display:grid; grid-template-columns:repeat(2, auto); justify-content:center; gap:24px;">';
+    for (var i = 0; i < visible.length; i++) {
+      var isLastOdd = i === visible.length - 1 && visible.length % 2 === 1;
+      html += '<div id="ws-card-' + slide.id + '-' + i + '" style="transform:scale(0);' + (isLastOdd ? ' grid-column:1 / -1; justify-self:center;' : '') + '">' + createWorkCardHTML(visible[i], cw, ch) + '</div>';
+    }
+    html += '</div>';
+
+    var el = document.createElement("div");
+    el.className = "slide-container";
+    el.style.cssText = "background:#ffffff; justify-content:center; align-items:center; font-family:" + BODY_FONT + "; padding:80px 30px;";
+    el.innerHTML = html;
+    return el;
+  }
+
+  function buildOutro(slide) {
+    var el = document.createElement("div");
+    el.className = "slide-container";
+    el.style.cssText = "background:#ffffff; justify-content:center; align-items:center; font-family:" + DISPLAY_FONT + "; padding:100px 50px;";
+    el.innerHTML =
+      '<div id="outro-msg-' + slide.id + '" style="color:#1d1d1f; font-size:52px; font-weight:600; letter-spacing:1.5px; line-height:1.15; text-align:center; max-width:900px; opacity:0;">' + (slide.message || 'Thank you for watching') + '</div>' +
+      (slide.channelName ? '<div id="outro-name-' + slide.id + '" style="color:#7a7a7a; font-size:30px; font-weight:400; letter-spacing:0.196px; line-height:1.14; margin-top:32px; opacity:0;">@' + slide.channelName + '</div>' : '');
+    return el;
+  }
+
+  // --- Build all slides ---
+
+  var frameOffset = 0;
+
+  slides.forEach(function(slide) {
+    var el;
+    var slideStartSec = frameOffset / FPS;
+    var slideDurSec = slide.durationInFrames / FPS;
+    var fadeInSec = FADE_FRAMES / FPS;
+    var fadeOutSec = FADE_FRAMES / FPS;
+
+    switch (slide.type) {
+      case "title":
+        el = buildTitleCard(slide);
+        break;
+      case "timeline-marker":
+        el = buildTimelineMarker(slide);
+        break;
+      case "narrative":
+      case "closing":
+        el = buildNarrativeSlide(slide);
+        break;
+      case "quote":
+        el = buildQuoteSlide(slide);
+        break;
+      case "works-grid":
+        el = buildWorksShowcase(slide);
+        break;
+      case "outro":
+        el = buildOutro(slide);
+        break;
+      default:
+        el = document.createElement("div");
+        el.className = "slide-container";
+    }
+
+    root.appendChild(el);
+
+    tl.set(el, { autoAlpha: 0 }, slideStartSec)
+      .to(el, { autoAlpha: 1, duration: fadeInSec }, slideStartSec)
+      .to(el, { autoAlpha: 0, duration: fadeOutSec }, slideStartSec + slideDurSec - fadeOutSec)
+      .set(el, { visibility: "hidden" }, slideStartSec + slideDurSec);
+
+    switch (slide.type) {
+      case "title":
+        tl.to("#tc-title-" + slide.id, { opacity: 1, duration: 1.0 }, slideStartSec);
+        if (slide.subtitle) {
+          tl.to("#tc-sub-" + slide.id, { opacity: 1, duration: 0.83 }, slideStartSec + 0.67);
+        }
+        break;
+
+      case "timeline-marker":
+        tl.to("#tm-year-" + slide.id, { opacity: 1, duration: 0.67 }, slideStartSec + 0.17);
+        tl.to("#tm-line-" + slide.id, { width: "60%", duration: 0.83 }, slideStartSec + 0.33);
+        if (slide.eraLabel) {
+          tl.to("#tm-label-" + slide.id, { opacity: 1, duration: 0.67 }, slideStartSec + 0.67);
+        }
+        break;
+
+      case "narrative":
+      case "closing":
+        tl.to("#ns-text-" + slide.id, { opacity: 1, duration: 0.67 }, slideStartSec);
+        if (slide.year) {
+          tl.to("#ns-year-" + slide.id, { scale: 1, duration: 0.6, ease: "back.out(1.4)" }, slideStartSec + 0.17);
+        }
+        if (slide.works) {
+          var workCount = Math.min(slide.works.length, 6);
+          for (var i = 0; i < workCount; i++) {
+            var cardEl = document.getElementById("ns-card-" + slide.id + "-" + i);
+            if (cardEl) {
+              tl.to(cardEl, { scale: 1, duration: 0.6, ease: "back.out(1.4)" }, slideStartSec + (20 + i * 6) / FPS);
+            }
+          }
+        }
+        break;
+
+      case "quote":
+        tl.to("#qs-content-" + slide.id, { scale: 1, duration: 0.7, ease: "back.out(1.2)" }, slideStartSec);
+        if (slide.attribution) {
+          tl.to("#qs-attr-" + slide.id, { opacity: 1, duration: 0.67 }, slideStartSec + 0.83);
+        }
+        break;
+
+      case "works-grid":
+        if (slide.title) {
+          tl.to("#ws-title-" + slide.id, { opacity: 1, duration: 0.5 }, slideStartSec);
+        }
+        var works = slide.works || [];
+        for (var i = 0; i < Math.min(works.length, 6); i++) {
+          var cardEl = document.getElementById("ws-card-" + slide.id + "-" + i);
+          if (cardEl) {
+            tl.to(cardEl, { scale: 1, duration: 0.6, ease: "back.out(1.4)" }, slideStartSec + (10 + i * 6) / FPS);
+          }
+        }
+        break;
+
+      case "outro":
+        tl.to("#outro-msg-" + slide.id, { opacity: 1, duration: 0.67 }, slideStartSec + 0.33);
+        if (slide.channelName) {
+          tl.to("#outro-name-" + slide.id, { opacity: 1, duration: 0.67 }, slideStartSec + 0.83);
+        }
+        break;
+    }
+
+    frameOffset += slide.durationInFrames;
+  });
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines["ReadingHistory-vertical"] = tl;
+
+})();
+</script>
+
+</body>
+</html>

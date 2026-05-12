@@ -99,6 +99,46 @@
 
 ---
 
+### 项目 4: Hyperframes (HTML/GSAP 引擎)
+
+> Hyperframes 是 HeyGen 的 HTML-native 视频框架，使用 GSAP 动画时间线。与 Remotion 并行运行，完全文件隔离。
+
+| Composition | 引擎 | 尺寸 | 数据源 | 制作进度 |
+|-------------|------|------|--------|----------|
+| WhiteVoice | Hyperframes | 1920x1080 | player-style/sample-data.ts | 完成 (行级歌词, 播放器控件) |
+| ReadingHistory | Hyperframes | 1920x1080 | reading-history/slides-data.ts | 完成 (6 种幻灯片类型) |
+| ReadingHistory Vertical | Hyperframes | 1080x1920 | reading-history/slides-data.ts | 完成 (竖屏适配) |
+
+**源文件:** `hyperframes/`
+- package.json (独立依赖: gsap, hyperframes CLI)
+- white-voice/ (音乐播放器: 黑胶唱片 + 歌词滚动 + 播放控件)
+- reading-history/ (阅读时间线: 横屏 1920x1080)
+- reading-history-vertical/ (阅读时间线: 竖屏 1080x1920)
+- scripts/ (数据转换 + 视觉回归测试)
+
+**Hyperframes 命令:**
+
+```bash
+cd hyperframes
+bun run preview:white-voice          # 预览 WhiteVoice
+bun run preview:reading-history      # 预览 ReadingHistory
+bun run render:all                   # 渲染全部
+bun run convert:data                 # 重新生成 data.js
+bun run lint                         # 检查全部 composition
+```
+
+**与 Remotion 的差异:**
+
+| 方面 | Remotion | Hyperframes |
+|------|----------|-------------|
+| 渲染方式 | React 逐帧渲染 | HTML + GSAP 时间线 |
+| 动画 API | spring(), interpolate() | GSAP tween + back.out() |
+| 时间单位 | 帧 (frame) | 秒 (second) |
+| 歌词高亮 | 逐字 KTV 模式 | 行级动画 (逐字待实现) |
+| 确定性渲染 | 框架保证 | 需手动确保 (无 repeat:-1, 无随机) |
+
+---
+
 ## 主题系统
 
 共 14 个主题, 定义在 `src/styles/themes/`:
@@ -128,6 +168,7 @@
 
 | 文件 | 内容 |
 |------|------|
+| CLAUDE.md | 项目总指南 (双引擎架构, 命令, 约定) |
 | DESIGN-Apple.md | Apple 风格设计系统 (ReadingHistory 使用) |
 | DESIGN-Player.md | 播放器风格设计系统 (PlayerStyle 使用) |
 | docs/guide.md | 英文项目指南 |
@@ -139,6 +180,7 @@
 | docs/player-style-template-design.md | PlayerStyle 模板设计 & 复用文档 |
 | docs/Reference-Player.md | 播放器风格原始参考 |
 | docs/视频制作工具评估.md | 视频制作工具评估 |
+| hyperframes/docs/MIGRATION-hyperframes.md | Hyperframes 迁移指南 (结构, 预览, 渲染, 差异) |
 
 ---
 
@@ -146,11 +188,12 @@
 
 | 指标 | 数值 |
 |------|------|
-| Composition 总数 | 21 |
-| 项目数 | 3 (MangaRecommend, ReadingHistory, PlayerStyle) |
-| 主题数 | 14 |
+| Composition 总数 | 24 (Remotion: 21, Hyperframes: 3) |
+| 项目数 | 4 (MangaRecommend, ReadingHistory, PlayerStyle, Hyperframes) |
+| 引擎数 | 2 (Remotion, Hyperframes) |
+| 主题数 | 14 (Remotion 专用) |
 | ReadingHistory 幻灯片数 | 45 |
 | ReadingHistory 总时长 | 23247 帧 (12:55 @ 30fps) |
-| PlayerStyle 样例时长 | 6120 帧 (3:24 @ 30fps) |
+| PlayerStyle/WhiteVoice 时长 | 6120 帧 (3:24 @ 30fps) |
 | 待补充图片 | 39 张 (ReadingHistory) |
-| 组件文件数 | 13 |
+| 组件文件数 | 13 (Remotion) + 3 HTML (Hyperframes) |

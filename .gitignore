@@ -1,4 +1,9 @@
 /build/
-/node_modules/
-/out/
 /public/
+
+node_modules/
+out/
+assets/
+
+.DS_Store
+*.log
